@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "led_strand_effect.h": "c",
+        "one_wire.h": "c",
+        "usb_stack.h": "c"
+    }
+}
