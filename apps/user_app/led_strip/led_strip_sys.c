@@ -87,6 +87,25 @@ void soft_turn_on_the_light(void) // 软开灯处理
     fc_effect.on_off_flag = DEVICE_ON;
 
     motor_Init();
+    
+    // 开机前，可能关机前电机就开着，或者关机前电机就已经关了，开机后保持状态不变（开机后，恢复电机在关机前的状态）
+    if (fc_effect.star_speed_index >= ARRAY_SIZE(motor_period))
+    {
+        // 如果开机前，电机的周期索引超过了电机的周期数组大小，说明电机在开机前就是关着的
+        one_wire_set_mode(6); // 关闭电机
+        fc_effect.motor_on_off = DEVICE_OFF;
+    }
+    else
+    {
+        // 如果开机前，电机的周期索引还在电机的周期数组大小内，说明电机在开机前是开着的
+        one_wire_set_period(motor_period[fc_effect.star_speed_index]);
+        // one_wire_set_mode(4); // 360正转
+        fc_effect.motor_on_off = DEVICE_ON;
+    }
+
+    os_taskq_post("msg_task", 1, MSG_SEQUENCER_ONE_WIRE_SEND_INFO);
+    printf("fc_effect.star_speed_index %u\n", (u16)fc_effect.star_speed_index); // 打印电机的速度索引
+
     WS2812FX_start();
     // open_fan();
     set_fc_effect();         // 七彩灯动画效果
@@ -786,7 +805,8 @@ void ls_set_motor_speed(void)
         fc_effect.motor_on_off = DEVICE_ON;
     }
 
-    enable_one_wire(); //
+    // enable_one_wire(); //
+    os_taskq_post("msg_task", 1, MSG_SEQUENCER_ONE_WIRE_SEND_INFO);
 }
 
 void power_motor_Init(void)
@@ -814,7 +834,8 @@ void ls_set_motor_off(void)
     fc_effect.motor_on_off = DEVICE_OFF;
     one_wire_set_mode(6); // 停止电机
     os_time_dly(1);
-    enable_one_wire();
+    // enable_one_wire();
+    os_taskq_post("msg_task", 1, MSG_SEQUENCER_ONE_WIRE_SEND_INFO);
 }
 
 /*********************************************************

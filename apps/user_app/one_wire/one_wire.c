@@ -7,6 +7,10 @@
 volatile u16 send_base_ins = 0;
 u8 motor_period[6] = {8, 13, 18, 21, 26, 35};  //转速  app指令，需要将8 13 18 21 26 转换成相应的16进制
 
+// 定义与驱动电机ic通信的引脚
+#define MOTOR_DATA_IO_PORT IO_PORTA_00
+// #define MOTOR_DATA_IO_PORT IO_PORTB_06 // 测试时使用（引脚与硬件的不一样，无法测得现象）
+
 /**
  * @brief  mcu通讯接口
  * 
@@ -15,9 +19,9 @@ u8 motor_period[6] = {8, 13, 18, 21, 26, 35};  //转速  app指令，需要将8 
 void mcu_com_init(void)
 {
 
-	gpio_set_die(IO_PORTA_00, 1);         
-    gpio_set_pull_up(IO_PORTA_00,1);
-	gpio_direction_output(IO_PORTA_00, 1);
+	gpio_set_die(MOTOR_DATA_IO_PORT, 1);         
+    gpio_set_pull_up(MOTOR_DATA_IO_PORT,1);
+	gpio_direction_output(MOTOR_DATA_IO_PORT, 1);
     
 }
 
@@ -83,10 +87,11 @@ void one_wire_send_enable(void)
 // void __attribute__((weak)) make_one_wire(volatile u16 dat )
 
 // static volatile u16 dat = 0;
+static volatile u8 flag_is_just_begin = 1; // 标志位，是否刚开始进入发送；0--否，1--是
 void __attribute__((weak)) make_one_wire(void)
 {
     static volatile u16 dat = 0;
-    static volatile u8 flag_is_just_begin = 1; // 标志位，是否刚开始进入发送；0--否，1--是
+    
   
     if(send_en == 0) 
     { 
@@ -123,13 +128,13 @@ void __attribute__((weak)) make_one_wire(void)
         /**********************************************************/    
             if(h_l == 0)
             {
-                gpio_direction_output(IO_PORTA_00, 0);
+                gpio_direction_output(MOTOR_DATA_IO_PORT, 0);
                _125ms_cnt++;
           
                 //++_125ms_cnt;
                 if(_125ms_cnt > (W_1MS))  //从1开始
                 {
-                    gpio_direction_output(IO_PORTA_00, 1);
+                    gpio_direction_output(MOTOR_DATA_IO_PORT, 1);
                     
                     h_l = 1;
                     _125ms_cnt = 0;
@@ -138,12 +143,12 @@ void __attribute__((weak)) make_one_wire(void)
             }
             else
             {
-                // gpio_direction_output(IO_PORTA_00, 1);
+                // gpio_direction_output(MOTOR_DATA_IO_PORT, 1);
                 _125ms_cnt++;
                 
                 if(_125ms_cnt == W_1MS)
                 { 
-                    gpio_direction_output(IO_PORTA_00, 0);
+                    gpio_direction_output(MOTOR_DATA_IO_PORT, 0);
                     h_l = 0;
                     step = 1;
                     _125ms_cnt = 0;
@@ -154,14 +159,14 @@ void __attribute__((weak)) make_one_wire(void)
         case 1:
             if(h_l == 0)
             {
-                // gpio_direction_output(IO_PORTA_00, 0);
+                // gpio_direction_output(MOTOR_DATA_IO_PORT, 0);
                 _125ms_cnt++;
             
               
                 if(_125ms_cnt == W_0_5MS)
                 {
                    
-                    gpio_direction_output(IO_PORTA_00, 1);
+                    gpio_direction_output(MOTOR_DATA_IO_PORT, 1);
                      h_l = 1;
                     _125ms_cnt = 0;
                 }
@@ -170,12 +175,12 @@ void __attribute__((weak)) make_one_wire(void)
             {
                 if( (dat >> send_cnt) & 0x01)   //1
                 {
-                    // gpio_direction_output(IO_PORTA_00, 1);
+                    // gpio_direction_output(MOTOR_DATA_IO_PORT, 1);
                     _125ms_cnt++;
                     
                     if(_125ms_cnt == W_1MS)
                     {
-                        gpio_direction_output(IO_PORTA_00, 0);
+                        gpio_direction_output(MOTOR_DATA_IO_PORT, 0);
 
                         h_l = 0;
                         _125ms_cnt = 0;
@@ -190,11 +195,11 @@ void __attribute__((weak)) make_one_wire(void)
                 }
                 else
                 {
-                    // gpio_direction_output(IO_PORTA_00, 1);
+                    // gpio_direction_output(MOTOR_DATA_IO_PORT, 1);
                     _125ms_cnt++;              
                     if(_125ms_cnt == W_0_5MS)
                     {
-                        gpio_direction_output(IO_PORTA_00, 0);
+                        gpio_direction_output(MOTOR_DATA_IO_PORT, 0);
                         h_l = 0;
                         _125ms_cnt = 0;
                         // 完成1bit发送
@@ -213,11 +218,11 @@ void __attribute__((weak)) make_one_wire(void)
         case 2:
             if(h_l == 0)
             {
-                gpio_direction_output(IO_PORTA_00, 0);
+                gpio_direction_output(MOTOR_DATA_IO_PORT, 0);
                 _125ms_cnt++;            
                 if(_125ms_cnt == W_2MS)
                 {
-                    gpio_direction_output(IO_PORTA_00, 1);
+                    gpio_direction_output(MOTOR_DATA_IO_PORT, 1);
                    
                     _125ms_cnt = 0;
                     step = 0;
@@ -236,7 +241,7 @@ void __attribute__((weak)) make_one_wire(void)
 void enable_one_wire(void)   //数据发送使能
 {
     send_en = 0;
-
+    flag_is_just_begin = 1; // 发送完成，清除该标志位，等待下一次发送
     pack_base();   //打包数据
 
     count_ = 0;
@@ -380,17 +385,20 @@ void set_stepmotor_music_mode(void)
         case 0:
    
             stepmotor_direction();
-            enable_one_wire();  //使用发送数据
+            // enable_one_wire();  //使用发送数据
+            os_taskq_post("msg_task", 1, MSG_SEQUENCER_ONE_WIRE_SEND_INFO);
         break;
         case 1:
 
             stepmotor_music_minSpeed();
-            enable_one_wire();  //使用发送数据
+            // enable_one_wire();  //使用发送数据
+            os_taskq_post("msg_task", 1, MSG_SEQUENCER_ONE_WIRE_SEND_INFO);
         break;
         case 2:
    
             stepmotor_music_maxSpeed();
-            enable_one_wire();  //使用发送数据
+            // enable_one_wire();  //使用发送数据
+            os_taskq_post("msg_task", 1, MSG_SEQUENCER_ONE_WIRE_SEND_INFO);
         break;
     }
   
@@ -408,7 +416,8 @@ void set_stepmotor_slow(void)
     if(fc_effect.base_ins.period != 26)
     {
         stepmotor_music_minSpeed();
-        enable_one_wire();  //使用发送数据
+        // enable_one_wire();  //使用发送数据
+        os_taskq_post("msg_task", 1, MSG_SEQUENCER_ONE_WIRE_SEND_INFO);
     }
 
 }
@@ -422,7 +431,8 @@ void set_stepmotor_fast(void)
     if(fc_effect.base_ins.period != 8)
     {
         stepmotor_music_maxSpeed();
-        enable_one_wire();  //使用发送数据
+        // enable_one_wire();  //使用发送数据
+        os_taskq_post("msg_task", 1, MSG_SEQUENCER_ONE_WIRE_SEND_INFO);
     }
 
 }
@@ -497,7 +507,8 @@ void stepmotor(void)
         {
          
             one_wire_set_mode(6);
-            enable_one_wire();
+            // enable_one_wire();
+            os_taskq_post("msg_task", 1, MSG_SEQUENCER_ONE_WIRE_SEND_INFO);
             clean_stepmorot_flag();
         }
         else{

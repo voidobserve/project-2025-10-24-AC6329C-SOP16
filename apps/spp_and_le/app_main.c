@@ -309,7 +309,7 @@ static const u16 timer_div[] = {
     /*1111*/ 128 * 256,
 };
 // #define APP_TIMER_CLK (CONFIG_BT_NORMAL_HZ / 2) // clk_get("timer")
-#define APP_TIMER_CLK           (24000000) //clk_get("timer")
+#define APP_TIMER_CLK (24000000) // clk_get("timer")
 #define MAX_TIME_CNT 0x7fff
 #define MIN_TIME_CNT 0x100
 #define TIMER_UNIT 1
@@ -320,7 +320,7 @@ static const u16 timer_div[] = {
 #define TIMER_VETOR IRQ_TIME2_IDX
 
 ___interrupt
-    AT_VOLATILE_RAM_CODE void user_timer_isr(void) // 
+    AT_VOLATILE_RAM_CODE void user_timer_isr(void) //
 {
 
     TIMER_CON |= BIT(14);
@@ -349,7 +349,7 @@ void user_timer_init(void)
     // request_irq(TIMER_VETOR, 0, user_timer_isr, 0);
     request_irq(TIMER_VETOR, 3, user_timer_isr, 0);
     // TIMER_CON = (index << 4) | BIT(0) | BIT(3);
-    TIMER_CON = (0b0001 << 10) | (index << 4) | (0x01 << 0); // 选择晶振作为时钟源，分频系数，定时器计数模式 
+    TIMER_CON = (0b0001 << 10) | (index << 4) | (0x01 << 0); // 选择晶振作为时钟源，分频系数，定时器计数模式
 }
 __initcall(user_timer_init);
 
@@ -360,12 +360,16 @@ __initcall(user_timer_init);
 
 void main_while(void)
 {
+    read_flash_device_status_init();
+    full_color_init();
 
     while (1)
     {
 
         // power_motor_Init();    // 根据电机标志位，控制电机开关
-
+        effect_stepmotor();  // 声控，电机的音乐效果
+        stepmotor();         // 无霍尔时，电机停止指令计时
+        meteor_period_sub(); // 流星周期控制
         RF24G_Key_Handle();
 
         os_time_dly(1);
@@ -426,9 +430,7 @@ void user_msg_handle_task(void)
 
 void circle_task(void)
 {
-    effect_stepmotor();  // 声控，电机的音乐效果
-    stepmotor();         // 无霍尔时，电机停止指令计时
-    meteor_period_sub(); // 流星周期控制
+
     sound_handle();
     run_tick_per_10ms();
     WS2812FX_service();
@@ -444,10 +446,14 @@ void my_main(void)
     led_state_init();
     mcu_com_init(); // 电机一线通信
 
-    read_flash_device_status_init();
-    full_color_init();
-    // os_sem_create(&LED_TASK_SEM,0);
-    task_create(main_while, NULL, "led_task");
     task_create(user_msg_handle_task, NULL, "msg_task");
     sys_s_hi_timer_add(NULL, circle_task, 10); // 10ms
+
+    // os_time_dly(10);
+    /*
+        这里要放到最后，防止调用 soft_turn_on_the_light() 给线程发送消息时，
+        接收消息的线程没有创建，导致收不到消息，最后一上电电机工作的模式和速度与变量的不一致
+    */
+    // os_sem_create(&LED_TASK_SEM,0);
+    task_create(main_while, NULL, "led_task");
 }

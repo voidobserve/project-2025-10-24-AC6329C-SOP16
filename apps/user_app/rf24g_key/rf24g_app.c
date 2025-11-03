@@ -298,6 +298,9 @@ void RF24G_Key_Handle(void)
                 }
 
                 os_taskq_post("msg_task", 1, MSG_SEQUENCER_ONE_WIRE_SEND_INFO);
+                fb_motor_speed();
+
+                // printf("fc_effect.star_speed_index %u\n", (u16)fc_effect.star_speed_index); // 打印电机的速度索引
 
                 // printf("fc_effect.base_ins.mode = %u\n", (u16)fc_effect.base_ins.mode);
                 // printf("fc_effect.base_ins.period = %u\n", (u16)fc_effect.base_ins.period);

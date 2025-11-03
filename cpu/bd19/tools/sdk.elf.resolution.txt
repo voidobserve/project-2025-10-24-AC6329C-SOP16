@@ -2227,12 +2227,15 @@ obj/Release/apps/user_app/led_strip/led_strip_sys.o
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,fc_data_init,pl
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,soft_turn_on_the_light,pl
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,motor_Init,l
+-r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,one_wire_set_mode,l
+-r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,one_wire_set_period,l
+-r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,os_taskq_post,
+-r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,printf,l
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,WS2812FX_start,l
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,set_fc_effect,l
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,ls_meteor_stat_effect,l
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,fb_led_on_off_state,l
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,save_user_data_area3,l
--r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,printf,l
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,soft_turn_off_lights,pl
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,WS2812FX_stop,l
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,WS2812FX_strip_off,l
@@ -2283,9 +2286,6 @@ obj/Release/apps/user_app/led_strip/led_strip_sys.o
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,fd_meteor_cycle,l
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,ls_set_star_tail,pl
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,ls_set_motor_speed,pl
--r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,one_wire_set_mode,l
--r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,one_wire_set_period,l
--r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,enable_one_wire,l
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,power_motor_Init,pl
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,ls_set_motor_off,pl
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,os_time_dly,
@@ -2319,6 +2319,7 @@ obj/Release/apps/user_app/led_strip/led_strip_sys.o
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,time_clock_handler,l
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,fc_effect,l
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,zd_countdown,l
+-r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,motor_period,l
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,led_b_array,pl
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,led_speed_array,pl
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,RGBsequence_map,pl
@@ -2326,7 +2327,6 @@ obj/Release/apps/user_app/led_strip/led_strip_sys.o
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,_running,l
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,meteor_cycle,pl
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,cycle_cntt,pl
--r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,motor_period,l
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,ir_mode,pl
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,ir_auto_f,pl
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,ir_auto_change_tcnt,pl
@@ -2366,6 +2366,7 @@ obj/Release/apps/user_app/one_wire/one_wire.o
 -r=obj/Release/apps/user_app/one_wire/one_wire.o,stepmotor_music_minSpeed,pl
 -r=obj/Release/apps/user_app/one_wire/one_wire.o,stepmotor_music_maxSpeed,pl
 -r=obj/Release/apps/user_app/one_wire/one_wire.o,set_stepmotor_music_mode,pl
+-r=obj/Release/apps/user_app/one_wire/one_wire.o,os_taskq_post,
 -r=obj/Release/apps/user_app/one_wire/one_wire.o,set_stepmotor_slow,pl
 -r=obj/Release/apps/user_app/one_wire/one_wire.o,set_stepmotor_fast,pl
 -r=obj/Release/apps/user_app/one_wire/one_wire.o,effect_stepmotor,pl
@@ -2431,7 +2432,7 @@ obj/Release/apps/user_app/protocol/dp_data_tran.o
 -r=obj/Release/apps/user_app/protocol/dp_data_tran.o,app_set_on_off_meteor,l
 -r=obj/Release/apps/user_app/protocol/dp_data_tran.o,app_set_meteor_pro,l
 -r=obj/Release/apps/user_app/protocol/dp_data_tran.o,one_wire_set_mode,l
--r=obj/Release/apps/user_app/protocol/dp_data_tran.o,enable_one_wire,l
+-r=obj/Release/apps/user_app/protocol/dp_data_tran.o,os_taskq_post,
 -r=obj/Release/apps/user_app/protocol/dp_data_tran.o,one_wire_set_period,l
 -r=obj/Release/apps/user_app/protocol/dp_data_tran.o,parse_led_strip_data,pl
 -r=obj/Release/apps/user_app/protocol/dp_data_tran.o,save_user_data_area3,l
@@ -2448,6 +2449,7 @@ obj/Release/apps/user_app/protocol/dp_data_tran.o
 -r=obj/Release/apps/user_app/protocol/dp_data_tran.o,time_clock,l
 -r=obj/Release/apps/user_app/protocol/dp_data_tran.o,counting_flag,l
 -r=obj/Release/apps/user_app/protocol/dp_data_tran.o,set_time,l
+-r=obj/Release/apps/user_app/protocol/dp_data_tran.o,motor_period,l
 -r=obj/Release/apps/user_app/protocol/dp_data_tran.o,zd_countdown,l
 -r=obj/Release/apps/user_app/protocol/dp_data_tran.o,dp_switch_led,pl
 -r=obj/Release/apps/user_app/protocol/dp_data_tran.o,dp_countdown,pl
@@ -2470,6 +2472,7 @@ obj/Release/apps/user_app/rf24g_key/rf24g_app.o
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,ls_add_sensitive,l
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,ls_Sub_CW,l
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,ls_Add_CW,l
+-r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,fb_motor_speed,l
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,ls_1H_close,l
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,ls_chose_mode_InAPP,l
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,ls_cycle_music_effect,l
@@ -2839,6 +2842,11 @@ obj/Release/apps/spp_and_le/app_main.o
 -r=obj/Release/apps/spp_and_le/app_main.o,user_timer_init,pl
 -r=obj/Release/apps/spp_and_le/app_main.o,request_irq,l
 -r=obj/Release/apps/spp_and_le/app_main.o,main_while,pl
+-r=obj/Release/apps/spp_and_le/app_main.o,read_flash_device_status_init,l
+-r=obj/Release/apps/spp_and_le/app_main.o,full_color_init,l
+-r=obj/Release/apps/spp_and_le/app_main.o,effect_stepmotor,l
+-r=obj/Release/apps/spp_and_le/app_main.o,stepmotor,l
+-r=obj/Release/apps/spp_and_le/app_main.o,meteor_period_sub,l
 -r=obj/Release/apps/spp_and_le/app_main.o,RF24G_Key_Handle,l
 -r=obj/Release/apps/spp_and_le/app_main.o,os_time_dly,
 -r=obj/Release/apps/spp_and_le/app_main.o,user_msg_handle_task,pl
@@ -2846,9 +2854,6 @@ obj/Release/apps/spp_and_le/app_main.o
 -r=obj/Release/apps/spp_and_le/app_main.o,is_one_wire_send_end,l
 -r=obj/Release/apps/spp_and_le/app_main.o,enable_one_wire,l
 -r=obj/Release/apps/spp_and_le/app_main.o,circle_task,pl
--r=obj/Release/apps/spp_and_le/app_main.o,effect_stepmotor,l
--r=obj/Release/apps/spp_and_le/app_main.o,stepmotor,l
--r=obj/Release/apps/spp_and_le/app_main.o,meteor_period_sub,l
 -r=obj/Release/apps/spp_and_le/app_main.o,sound_handle,l
 -r=obj/Release/apps/spp_and_le/app_main.o,run_tick_per_10ms,l
 -r=obj/Release/apps/spp_and_le/app_main.o,WS2812FX_service,l
@@ -2858,8 +2863,6 @@ obj/Release/apps/spp_and_le/app_main.o
 -r=obj/Release/apps/spp_and_le/app_main.o,mic_gpio_init,l
 -r=obj/Release/apps/spp_and_le/app_main.o,led_state_init,l
 -r=obj/Release/apps/spp_and_le/app_main.o,mcu_com_init,l
--r=obj/Release/apps/spp_and_le/app_main.o,read_flash_device_status_init,l
--r=obj/Release/apps/spp_and_le/app_main.o,full_color_init,l
 -r=obj/Release/apps/spp_and_le/app_main.o,task_create,l
 -r=obj/Release/apps/spp_and_le/app_main.o,usr_timer_add,l
 -r=obj/Release/apps/spp_and_le/app_main.o,task_info_table,pl
