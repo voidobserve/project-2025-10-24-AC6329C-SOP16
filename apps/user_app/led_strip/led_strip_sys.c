@@ -4,6 +4,8 @@
 #include "Adafruit_NeoPixel.H"
 #include "led_strand_effect.h"
 
+#include "../../../apps/user_app/one_wire/one_wire.h"
+
 #define MAX_BRIGHT_RANK 10
 #define MAX_SPEED_RANK 10
 #define MIN_BRIGHT_VALUE 10
@@ -87,7 +89,7 @@ void soft_turn_on_the_light(void) // 软开灯处理
     fc_effect.on_off_flag = DEVICE_ON;
 
     motor_Init();
-    
+
     // 开机前，可能关机前电机就开着，或者关机前电机就已经关了，开机后保持状态不变（开机后，恢复电机在关机前的状态）
     if (fc_effect.star_speed_index >= ARRAY_SIZE(motor_period))
     {
@@ -120,6 +122,14 @@ void soft_turn_off_lights(void) // 软关灯处理
 {
 
     fc_effect.on_off_flag = DEVICE_OFF;
+
+    /*
+        再次上电之后，如果之前是关机状态，会进入这里，但是这里原本没有发送关闭电机的代码，
+        目前添加了发送关闭电机的补丁
+    */ 
+    one_wire_set_mode(6); // 关闭电机
+    fc_effect.motor_on_off = DEVICE_OFF;
+    os_taskq_post("msg_task", 1, MSG_SEQUENCER_ONE_WIRE_SEND_INFO);
 
     WS2812FX_stop();
     WS2812FX_strip_off();

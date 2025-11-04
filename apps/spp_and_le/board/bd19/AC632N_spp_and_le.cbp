@@ -1251,10 +1251,6 @@
 		<Unit filename="board_ac632n_demo_cfg.h" />
 		<Unit filename="board_ac632n_demo_global_build_cfg.h" />
 		<Unit filename="board_config.h" />
-		<Extensions>
-			<code_completion />
-			<envvars />
-			<debugger />
-		</Extensions>
+		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

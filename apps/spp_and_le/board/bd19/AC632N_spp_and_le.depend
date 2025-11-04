@@ -34237,7 +34237,7 @@
 	"typedef.h"
 	"asm/adc_api.h"
 
-1762156096 d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\user_app\rf24g_key\rf24g_app.h
+1762234756 d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\user_app\rf24g_key\rf24g_app.h
 	"board_ac632n_demo_cfg.h"
 
 1719187031 d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\include_lib\driver\cpu\bd19\asm\ctmu.h
@@ -36368,11 +36368,12 @@
 	"asm/mcpwm.h"
 	"led_strand_effect.h"
 
-1762155732 source:d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\user_app\led_strip\led_strip_sys.c
+1762235204 source:d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\user_app\led_strip\led_strip_sys.c
 	"includes.h"
 	"led_strip_sys.h"
 	"Adafruit_NeoPixel.H"
 	"led_strand_effect.h"
+	"../../../apps/user_app/one_wire/one_wire.h"
 
 1719994438 source:d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\user_app\led_strip\led_strip_voice.c
 	"led_strip_voice.h"
