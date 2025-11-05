@@ -2188,6 +2188,8 @@ obj/Release/apps/user_app/led_strip/led_strand_effect.o
 -r=obj/Release/apps/user_app/led_strip/led_strand_effect.o,save_user_data_area3,l
 -r=obj/Release/apps/user_app/led_strip/led_strand_effect.o,cw_driver,l
 -r=obj/Release/apps/user_app/led_strip/led_strand_effect.o,app_set_bright,l
+-r=obj/Release/apps/user_app/led_strip/led_strand_effect.o,cool_white_breathing,l
+-r=obj/Release/apps/user_app/led_strip/led_strand_effect.o,warm_white_breathing,l
 -r=obj/Release/apps/user_app/led_strip/led_strand_effect.o,fc_music_gradual,l
 -r=obj/Release/apps/user_app/led_strip/led_strand_effect.o,fc_music_breath,l
 -r=obj/Release/apps/user_app/led_strip/led_strand_effect.o,fc_music_static,l
@@ -2419,11 +2421,11 @@ obj/Release/apps/user_app/protocol/dp_data_tran.o
 -r=obj/Release/apps/user_app/protocol/dp_data_tran.o,parse_alarm_data,l
 -r=obj/Release/apps/user_app/protocol/dp_data_tran.o,cw_driver,l
 -r=obj/Release/apps/user_app/protocol/dp_data_tran.o,set_static_mode,l
+-r=obj/Release/apps/user_app/protocol/dp_data_tran.o,app_set_cw,l
 -r=obj/Release/apps/user_app/protocol/dp_data_tran.o,base_Dynamic_Effect,l
 -r=obj/Release/apps/user_app/protocol/dp_data_tran.o,app_set_bright,l
 -r=obj/Release/apps/user_app/protocol/dp_data_tran.o,app_set_speed,l
 -r=obj/Release/apps/user_app/protocol/dp_data_tran.o,app_set_RGBsequence,l
--r=obj/Release/apps/user_app/protocol/dp_data_tran.o,app_set_cw,l
 -r=obj/Release/apps/user_app/protocol/dp_data_tran.o,app_set_music_mode,l
 -r=obj/Release/apps/user_app/protocol/dp_data_tran.o,set_music_type,l
 -r=obj/Release/apps/user_app/protocol/dp_data_tran.o,app_set_sensitive,l
@@ -2770,6 +2772,9 @@ obj/Release/apps/user_app/ws2812-fx-lib/WS2812FX_C/ws2812fx_effect.o
 -r=obj/Release/apps/user_app/ws2812-fx-lib/WS2812FX_C/ws2812fx_effect.o,WS2812FX_mutil_c_jump,pl
 -r=obj/Release/apps/user_app/ws2812-fx-lib/WS2812FX_C/ws2812fx_effect.o,WS2812FX_mutil_c_gradual,pl
 -r=obj/Release/apps/user_app/ws2812-fx-lib/WS2812FX_C/ws2812fx_effect.o,breath_w,pl
+-r=obj/Release/apps/user_app/ws2812-fx-lib/WS2812FX_C/ws2812fx_effect.o,cool_white_breathing,pl
+-r=obj/Release/apps/user_app/ws2812-fx-lib/WS2812FX_C/ws2812fx_effect.o,app_set_cw,l
+-r=obj/Release/apps/user_app/ws2812-fx-lib/WS2812FX_C/ws2812fx_effect.o,warm_white_breathing,pl
 -r=obj/Release/apps/user_app/ws2812-fx-lib/WS2812FX_C/ws2812fx_effect.o,WS2812FX_mutil_strobe,pl
 -r=obj/Release/apps/user_app/ws2812-fx-lib/WS2812FX_C/ws2812fx_effect.o,breath_rgb,pl
 -r=obj/Release/apps/user_app/ws2812-fx-lib/WS2812FX_C/ws2812fx_effect.o,fc_music_gradual,pl

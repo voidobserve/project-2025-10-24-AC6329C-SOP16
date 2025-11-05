@@ -502,12 +502,13 @@ u8 offset = 0;
 #endif
 
 	u8 info[13];    //客户机型数据
-    info[0] = 'Z';
-    info[1] = 'D';
+    info[0] = 'Z'; // 0x5A
+    info[1] = 'D'; // 0x44
     info[2] = 0x00; //
     info[3] = 0xD9;
     info[4] = 0x03;
     info[5] = 0x5E;
+    // info[6] = 0x89;
     info[6] = 0x8A;
     le_controller_get_mac(&info[7]);    //获取ble的蓝牙public地址
 

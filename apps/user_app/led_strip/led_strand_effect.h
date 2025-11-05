@@ -72,6 +72,10 @@ typedef enum
   MODE_GRADUAL = 34,                  //标准渐变，彩虹颜色
   MODE_MUTIL_C_BREATH = 35,
 
+  MODE_COOL_WHITE_BREATHING, // 冷白呼吸
+  MODE_WARM_WHITE_BREATHING, // 暖白呼吸
+
+
 } change_type_e;
 
 #pragma pack (1)

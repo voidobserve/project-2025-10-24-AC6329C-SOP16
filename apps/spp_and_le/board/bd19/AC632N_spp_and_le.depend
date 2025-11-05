@@ -34237,7 +34237,7 @@
 	"typedef.h"
 	"asm/adc_api.h"
 
-1762234756 d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\user_app\rf24g_key\rf24g_app.h
+1762307097 d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\user_app\rf24g_key\rf24g_app.h
 	"board_ac632n_demo_cfg.h"
 
 1719187031 d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\include_lib\driver\cpu\bd19\asm\ctmu.h
@@ -36312,7 +36312,7 @@
 
 1719196543 d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\user_app\hardware\hardware.h
 
-1761268788 d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\user_app\led_strip\led_strand_effect.h
+1762305574 d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\user_app\led_strip\led_strand_effect.h
 	"cpu.h"
 	"led_strip_sys.h"
 	"WS2812FX.H"
@@ -36345,7 +36345,7 @@
 1761271470 d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\user_app\one_wire\one_wire.h
 	"system/includes.h"
 
-1761200222 source:d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\user_app\led_strip\led_strand_effect.c
+1762315193 source:d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\user_app\led_strip\led_strand_effect.c
 	"system/includes.h"
 	"led_strand_effect.h"
 	"WS2812FX.H"
@@ -36354,21 +36354,22 @@
 	"led_strip_drive.h"
 	"app_main.h"
 	"asm/mcpwm.h"
+	"../../../apps/user_app/protocol/dp_data_tran.h"
 
-1719186948 d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\user_app\ws2812-fx-lib\ws2812fx_c\ws2812fx_effect.h
+1762308000 d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\user_app\ws2812-fx-lib\ws2812fx_c\ws2812fx_effect.h
 
 1719186947 d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\user_app\ws2812-fx-lib\adafruit_neopixel_c\adafruit_neopixel.h
 	<stdint.h>
 	"ws2812_bsp.h"
 
-1728899151 source:d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\user_app\led_strip\led_strip_drive.c
+1762314247 source:d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\user_app\led_strip\led_strip_drive.c
 	"led_strip_sys.h"
 	"led_strip_drive.h"
 	"asm/adc_api.h"
 	"asm/mcpwm.h"
 	"led_strand_effect.h"
 
-1762235204 source:d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\user_app\led_strip\led_strip_sys.c
+1762311703 source:d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\user_app\led_strip\led_strip_sys.c
 	"includes.h"
 	"led_strip_sys.h"
 	"Adafruit_NeoPixel.H"
@@ -36396,7 +36397,7 @@
 	"one_wire.h"
 	"led_strand_effect.h"
 
-1762154158 source:d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\user_app\protocol\dp_data_tran.c
+1762312409 source:d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\user_app\protocol\dp_data_tran.c
 	"cpu.h"
 	"led_strip_sys.h"
 	"paint_tool.h"
@@ -36411,7 +36412,7 @@
 	"led_strip_drive.h"
 	"one_wire.h"
 
-1719186947 d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\user_app\protocol\dp_data_tran.h
+1762314081 d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\user_app\protocol\dp_data_tran.h
 
 1719186943 d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\spp_and_le\examples\multi_conn\ble_multi_profile.h
 	<stdint.h>
@@ -36453,7 +36454,7 @@
 	<string.h>
 	"led_strip_sys.h"
 
-1719996692 source:d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\user_app\ws2812-fx-lib\ws2812fx_c\ws2812fx_effect.c
+1762309787 source:d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\user_app\ws2812-fx-lib\ws2812fx_c\ws2812fx_effect.c
 	"WS2812FX.h"
 	"ws2812fx_tool.h"
 	"Adafruit_NeoPixel.h"
@@ -37404,7 +37405,7 @@
 	"le_client_demo.h"
 	"gatt_common/le_gatt_common.h"
 
-1719278887 source:d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\spp_and_le\examples\multi_conn\ble_multi_peripheral.c
+1762314383 source:d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\spp_and_le\examples\multi_conn\ble_multi_peripheral.c
 	"system/app_core.h"
 	"system/includes.h"
 	"app_config.h"

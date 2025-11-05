@@ -77,6 +77,18 @@ void fc_data_init(void)
     fc_effect.motor_on_off = DEVICE_ON;
 
     fc_effect.nihgt_index = 0;
+
+    // 测试时使用：
+    // fc_effect.dream_scene.change_type = MODE_COOL_WHITE_BREATHING;
+    // fc_effect.dream_scene.c_n = 1;
+    // fc_effect.Now_state = IS_light_scene;
+
+    // fc_effect.rgb.r = 0;
+    // fc_effect.rgb.g = 0;
+    // fc_effect.rgb.b = 0;
+    // fc_effect.Now_state = ACT_CW;
+    // extern void app_set_cw(u8 tp_c, u8 tp_w);
+    // app_set_cw(0x00, 100); // 这个函数传参范围只能是0~100
 }
 
 /*********************************************************
@@ -126,7 +138,7 @@ void soft_turn_off_lights(void) // 软关灯处理
     /*
         再次上电之后，如果之前是关机状态，会进入这里，但是这里原本没有发送关闭电机的代码，
         目前添加了发送关闭电机的补丁
-    */ 
+    */
     one_wire_set_mode(6); // 关闭电机
     fc_effect.motor_on_off = DEVICE_OFF;
     os_taskq_post("msg_task", 1, MSG_SEQUENCER_ONE_WIRE_SEND_INFO);
@@ -949,6 +961,7 @@ void set_static_mode(u8 r, u8 g, u8 b)
         fc_effect.rgb.b = 0;
         fc_effect.Now_state = ACT_CW;
         cw_driver(1000, 0);
+        // app_set_cw(100, 0);
     }
 
 #endif
