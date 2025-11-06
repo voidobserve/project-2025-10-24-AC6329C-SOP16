@@ -100,21 +100,16 @@ void soft_turn_on_the_light(void) // 软开灯处理
 {
     fc_effect.on_off_flag = DEVICE_ON;
 
-    motor_Init();
+    motor_Init(); 
 
-    // 开机前，可能关机前电机就开着，或者关机前电机就已经关了，开机后保持状态不变（开机后，恢复电机在关机前的状态）
-    if (fc_effect.star_speed_index >= ARRAY_SIZE(motor_period))
+    if (DEVICE_ON == fc_effect.motor_on_off)
     {
-        // 如果开机前，电机的周期索引超过了电机的周期数组大小，说明电机在开机前就是关着的
-        one_wire_set_mode(6); // 关闭电机
-        fc_effect.motor_on_off = DEVICE_OFF;
-    }
-    else
-    {
-        // 如果开机前，电机的周期索引还在电机的周期数组大小内，说明电机在开机前是开着的
-        one_wire_set_period(motor_period[fc_effect.star_speed_index]);
-        // one_wire_set_mode(4); // 360正转
-        fc_effect.motor_on_off = DEVICE_ON;
+        // 如果在开机前，电机是开着的，则恢复电机在开机前的状态
+        if (6 == fc_effect.base_ins.mode)
+        {
+            // 如果电机的模式是6（关闭），则改为4
+            fc_effect.base_ins.mode = 4;
+        }
     }
 
     os_taskq_post("msg_task", 1, MSG_SEQUENCER_ONE_WIRE_SEND_INFO);
@@ -139,8 +134,10 @@ void soft_turn_off_lights(void) // 软关灯处理
         再次上电之后，如果之前是关机状态，会进入这里，但是这里原本没有发送关闭电机的代码，
         目前添加了发送关闭电机的补丁
     */
+    // 改成只发送关闭电机的控制命令，不给 fc_effect.motor_on_off 赋值为 DEVICE_OFF：
+    // fc_effect.motor_on_off = DEVICE_OFF;
+    one_wire_set_period(motor_period[fc_effect.star_speed_index]);
     one_wire_set_mode(6); // 关闭电机
-    fc_effect.motor_on_off = DEVICE_OFF;
     os_taskq_post("msg_task", 1, MSG_SEQUENCER_ONE_WIRE_SEND_INFO);
 
     WS2812FX_stop();
@@ -776,6 +773,7 @@ void ls_set_star_tail(void)
  *
  *********************************************************/
 extern u8 motor_period[6];
+// 目前未使用：
 void ls_set_motor_speed(void)
 {
     // static u8 start = 1;
@@ -805,30 +803,32 @@ void ls_set_motor_speed(void)
     //     enable_one_wire();       //启动发送电机数据
     // }
 
-    fc_effect.star_speed_index++;
-    if (fc_effect.star_speed_index >= ARRAY_SIZE(motor_period) + 1)
-    {
-        fc_effect.star_speed_index = 0;
-    }
+#if 0
+    // fc_effect.star_speed_index++;
+    // if (fc_effect.star_speed_index >= ARRAY_SIZE(motor_period) + 1)
+    // {
+    //     fc_effect.star_speed_index = 0;
+    // }
 
-    if (fc_effect.star_speed_index >= ARRAY_SIZE(motor_period))
-    {
-        // 超过了电机数组的索引，关闭电机
-        one_wire_set_mode(6); // 关闭电机
+    // if (fc_effect.star_speed_index >= ARRAY_SIZE(motor_period))
+    // {
+    //     // 超过了电机数组的索引，关闭电机
+    //     one_wire_set_mode(6); // 关闭电机
 
-        fc_effect.motor_on_off = DEVICE_OFF;
-    }
-    else
-    {
-        // 没有超过电机数组的索引，启动电机
-        one_wire_set_mode(4); // 360正转
-        one_wire_set_period(motor_period[fc_effect.star_speed_index]);
+    //     fc_effect.motor_on_off = DEVICE_OFF;
+    // }
+    // else
+    // {
+    //     // 没有超过电机数组的索引，启动电机
+    //     one_wire_set_mode(4); // 360正转
+    //     one_wire_set_period(motor_period[fc_effect.star_speed_index]);
 
-        fc_effect.motor_on_off = DEVICE_ON;
-    }
+    //     fc_effect.motor_on_off = DEVICE_ON;
+    // }
 
-    // enable_one_wire(); //
-    os_taskq_post("msg_task", 1, MSG_SEQUENCER_ONE_WIRE_SEND_INFO);
+    // // enable_one_wire(); //
+    // os_taskq_post("msg_task", 1, MSG_SEQUENCER_ONE_WIRE_SEND_INFO);
+#endif
 }
 
 void power_motor_Init(void)
@@ -851,13 +851,14 @@ void power_motor_Init(void)
     // }
 }
 
+// 目前未使用：
 void ls_set_motor_off(void)
 {
-    fc_effect.motor_on_off = DEVICE_OFF;
-    one_wire_set_mode(6); // 停止电机
-    os_time_dly(1);
-    // enable_one_wire();
-    os_taskq_post("msg_task", 1, MSG_SEQUENCER_ONE_WIRE_SEND_INFO);
+    // fc_effect.motor_on_off = DEVICE_OFF;
+    // one_wire_set_mode(6); // 停止电机
+    // os_time_dly(1);
+    // // enable_one_wire();
+    // os_taskq_post("msg_task", 1, MSG_SEQUENCER_ONE_WIRE_SEND_INFO);
 }
 
 /*********************************************************

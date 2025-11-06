@@ -824,7 +824,7 @@ void parse_zd_data(unsigned char *LedCommand)
                 if (LedCommand[2] == 0 && counting_flag == 0)
                 {
                     fc_effect.motor_on_off = DEVICE_OFF;
-                    fc_effect.star_speed_index = ARRAY_SIZE(motor_period); // 让索引值超出数组的索引范围，表示关闭电机
+                    // fc_effect.star_speed_index = ARRAY_SIZE(motor_period); // 让索引值超出数组的索引范围，表示关闭电机
 
                     counting_flag = 1; // 开始计时
                     set_time = 1;      // 允许修改时间

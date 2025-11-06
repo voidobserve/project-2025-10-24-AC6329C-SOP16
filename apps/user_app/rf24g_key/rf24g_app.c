@@ -151,52 +151,7 @@ void RF24G_Key_Handle(void)
             // motor_Init();
             if (DEVICE_OFF == fc_effect.on_off_flag)
             {
-                // printf("fc_effect.base_ins.period = %u\n", (u16)fc_effect.base_ins.period);
-                // printf("fc_effect.star_speed_index = %u\n", (u16)fc_effect.star_speed_index);
-                // printf("send_base_ins = 0x%x\n", (u16)send_base_ins);
-
-                // 开机前，可能关机前电机就开着，或者关机前电机就已经关了，开机后保持状态不变
-
-                if (fc_effect.star_speed_index >= ARRAY_SIZE(motor_period))
-                {
-                    // 如果开机前，电机的周期索引超过了电机的周期数组大小，说明电机在开机前就是关着的
-                    one_wire_set_mode(6); // 关闭电机
-                    fc_effect.motor_on_off = DEVICE_OFF;
-                }
-                else
-                {
-                    // 如果开机前，电机的周期索引还在电机的周期数组大小内，说明电机在开机前是开着的
-                    one_wire_set_period(motor_period[fc_effect.star_speed_index]);
-                    one_wire_set_mode(4); // 360正转
-                    fc_effect.motor_on_off = DEVICE_ON;
-                }
-
-                // if (DEVICE_OFF == fc_effect.motor_on_off &&
-                //     fc_effect.star_speed_index >= ARRAY_SIZE(motor_period))
-                // {
-                //     // 如果电机之前是关闭的，并且当前索引已经超过数组长度
-                //     fc_effect.star_speed_index = 0; // 设置电机转动速度的索引，默认从0开始
-                //     one_wire_set_period(motor_period[fc_effect.star_speed_index]);
-                //     one_wire_set_mode(4); // 360正转
-                //     fc_effect.motor_on_off = DEVICE_ON;
-                // }
-                // else if (DEVICE_OFF == fc_effect.motor_on_off)
-                // {
-                //     // 电机是关闭的，但是索引没有超过数组长度
-                //     one_wire_set_period(motor_period[fc_effect.star_speed_index]);
-                //     one_wire_set_mode(4); // 360正转
-                //     fc_effect.motor_on_off = DEVICE_ON;
-                // }
-
-                os_taskq_post("msg_task", 1, MSG_SEQUENCER_ONE_WIRE_SEND_INFO);
-
-                soft_turn_on_the_light(); // 开灯
-
-                // printf("fc_effect.base_ins.mode = %u\n", (u16)fc_effect.base_ins.mode);
-                // printf("fc_effect.base_ins.period = %u\n", (u16)fc_effect.base_ins.period);
-                // printf("fc_effect.base_ins.dir = %u\n", (u16)fc_effect.base_ins.dir);
-                // printf("fc_effect.base_ins.music_mode = %u\n", (u16)fc_effect.base_ins.music_mode);
-                // printf("fc_effect.motor_on_off = %u\n", (u16)fc_effect.motor_on_off);
+                soft_turn_on_the_light(); // 开灯（实际是开启设备）
             }
         }
 
@@ -260,15 +215,27 @@ void RF24G_Key_Handle(void)
                     // 如果电机之前是关闭的，并且当前索引已经超过数组长度
                     fc_effect.star_speed_index = 0; // 设置电机转动速度的索引，默认从0开始
                     one_wire_set_period(motor_period[fc_effect.star_speed_index]);
-                    one_wire_set_mode(4); // 360正转
+                    // one_wire_set_mode(4); // 360正转
+                    if (6 == fc_effect.base_ins.mode)
+                    {
+                        // 如果电机的模式是6（关闭），则改为4
+                        fc_effect.base_ins.mode = 4;
+                    }
                     fc_effect.motor_on_off = DEVICE_ON;
+                    // printf("__LINE__ %u\n", __LINE__);
                 }
                 else if (DEVICE_OFF == fc_effect.motor_on_off)
                 {
-                    // 电机是关闭的，但是索引没有超过数组长度
+                    // 电机是关闭的，但是索引没有超过数组长度（可能是之前只关闭了电机，现在又短按了电机按键，想要打开电机）
                     one_wire_set_period(motor_period[fc_effect.star_speed_index]);
-                    one_wire_set_mode(4); // 360正转
+                    // one_wire_set_mode(4); // 360正转
+                    if (6 == fc_effect.base_ins.mode)
+                    {
+                        // 如果电机的模式是6（关闭），则改为4
+                        fc_effect.base_ins.mode = 4;
+                    }
                     fc_effect.motor_on_off = DEVICE_ON;
+                    // printf("__LINE__ %u\n", __LINE__);
                 }
                 else
                 {
@@ -290,7 +257,12 @@ void RF24G_Key_Handle(void)
                     else
                     {
                         // 没有超过电机数组的索引，启动电机
-                        one_wire_set_mode(4); // 360正转
+                        // one_wire_set_mode(4); // 360正转
+                        if (6 == fc_effect.base_ins.mode)
+                        {
+                            // 如果电机的模式是6（关闭），则改为4
+                            fc_effect.base_ins.mode = 4;
+                        }
                         one_wire_set_period(motor_period[fc_effect.star_speed_index]);
 
                         fc_effect.motor_on_off = DEVICE_ON;
@@ -299,8 +271,9 @@ void RF24G_Key_Handle(void)
 
                 os_taskq_post("msg_task", 1, MSG_SEQUENCER_ONE_WIRE_SEND_INFO);
                 fb_motor_speed();
+                fb_motor_mode();
 
-                // printf("fc_effect.star_speed_index %u\n", (u16)fc_effect.star_speed_index); // 打印电机的速度索引
+                printf("fc_effect.star_speed_index %u\n", (u16)fc_effect.star_speed_index); // 打印电机的速度索引
 
                 // printf("fc_effect.base_ins.mode = %u\n", (u16)fc_effect.base_ins.mode);
                 // printf("fc_effect.base_ins.period = %u\n", (u16)fc_effect.base_ins.period);
@@ -370,7 +343,8 @@ void RF24G_Key_Handle(void)
             // motor_Init();
             // ls_set_motor_off(); // 关电机
 
-            fc_effect.motor_on_off = DEVICE_OFF;
+            // 不给 fc_effect.motor_on_off 置为 DEVICE_OFF，防止下次调用开机时，电机不会再启动：
+            // fc_effect.motor_on_off = DEVICE_OFF;
             one_wire_set_mode(6); // 停止电机
             os_taskq_post("msg_task", 1, MSG_SEQUENCER_ONE_WIRE_SEND_INFO);
 
@@ -385,7 +359,6 @@ void RF24G_Key_Handle(void)
 
         if (get_on_off_state())
         {
-
             // 长按电机停止（对孔）
             if (key_value == RF24_M)
             {
@@ -394,12 +367,6 @@ void RF24G_Key_Handle(void)
                 fc_effect.motor_on_off = DEVICE_OFF;
                 one_wire_set_mode(6); // 停止电机
                 os_taskq_post("msg_task", 1, MSG_SEQUENCER_ONE_WIRE_SEND_INFO);
-
-                // printf("fc_effect.base_ins.mode = %u\n", (u16)fc_effect.base_ins.mode);
-                // printf("fc_effect.base_ins.period = %u\n", (u16)fc_effect.base_ins.period);
-                // printf("fc_effect.base_ins.dir = %u\n", (u16)fc_effect.base_ins.dir);
-                // printf("fc_effect.base_ins.music_mode = %u\n", (u16)fc_effect.base_ins.music_mode);
-                // printf("fc_effect.motor_on_off = %u\n", (u16)fc_effect.motor_on_off);
             }
         }
 

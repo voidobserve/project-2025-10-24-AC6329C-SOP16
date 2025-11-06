@@ -2481,10 +2481,10 @@ u16 cool_white_breathing(void)
     if (lum > 255)
         lum = 511 - lum; // lum = 15 -> 255 -> 15
 
-    // 只利用 WS2812FX_color_blend() 生成指定亮度的颜色
     // uint32_t color = WS2812FX_color_blend(0x00000000, 0xff000000, lum);
-    uint32_t color = WS2812FX_color_blend(0x00, 0xFF, lum);
-    // Adafruit_NeoPixel_fill(color, _seg->start, _seg_len);
+
+    Adafruit_NeoPixel_fill(BLACK, _seg->start, _seg_len);
+    uint32_t color = WS2812FX_color_blend(0x00, 0xFF, lum); // 只利用 WS2812FX_color_blend() 生成指定亮度的颜色 
     extern void app_set_cw(u8 tp_c, u8 tp_w);
     app_set_cw((color & 0xFF) * 100 / 0xFF, 0x00); // 设置驱动冷白色的pwm的占空比，暖白色固定为0（这个函数接口的传参范围是0~100）
 
@@ -2512,10 +2512,9 @@ u16 warm_white_breathing(void)
     if (lum > 255)
         lum = 511 - lum; // lum = 15 -> 255 -> 15
 
-    // 只利用 WS2812FX_color_blend() 生成指定亮度的颜色
-    // uint32_t color = WS2812FX_color_blend(0x00000000, 0xff000000, lum);
-    uint32_t color = WS2812FX_color_blend(0x00, 0xFF, lum);
-    // Adafruit_NeoPixel_fill(color, _seg->start, _seg_len);
+    
+    Adafruit_NeoPixel_fill(BLACK, _seg->start, _seg_len);
+    uint32_t color = WS2812FX_color_blend(0x00, 0xFF, lum);// 只利用 WS2812FX_color_blend() 生成指定亮度的颜色
     extern void app_set_cw(u8 tp_c, u8 tp_w);
     app_set_cw(0x00, (color & 0xFF) * 100 / 0xFF); // 设置驱动 暖白色的pwm的占空比，冷白色固定为0（这个函数接口的传参范围是0~100）
 

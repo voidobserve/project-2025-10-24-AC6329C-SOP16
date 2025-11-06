@@ -743,7 +743,8 @@ static void ls_scene_effect(void)
             fc_effect.dream_scene.speed, // 速 度
             SIZE_MEDIUM                  // 选项，这里像素点大小：3
         );
-
+        WS2812FX_set_coloQty(0, fc_effect.dream_scene.c_n);
+        WS2812FX_setColors(0, BLACK);
         WS2812FX_start();
     }
     break;
@@ -759,7 +760,8 @@ static void ls_scene_effect(void)
             fc_effect.dream_scene.speed, // 速 度
             SIZE_MEDIUM                  // 选项，这里像素点大小：3
         );
-
+        WS2812FX_set_coloQty(0, fc_effect.dream_scene.c_n);
+        WS2812FX_setColors(0, BLACK);
         WS2812FX_start();
     }
     break;

@@ -2229,8 +2229,6 @@ obj/Release/apps/user_app/led_strip/led_strip_sys.o
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,fc_data_init,pl
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,soft_turn_on_the_light,pl
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,motor_Init,l
--r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,one_wire_set_mode,l
--r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,one_wire_set_period,l
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,os_taskq_post,
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,printf,l
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,WS2812FX_start,l
@@ -2239,6 +2237,8 @@ obj/Release/apps/user_app/led_strip/led_strip_sys.o
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,fb_led_on_off_state,l
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,save_user_data_area3,l
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,soft_turn_off_lights,pl
+-r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,one_wire_set_period,l
+-r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,one_wire_set_mode,l
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,WS2812FX_stop,l
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,WS2812FX_strip_off,l
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,turn_Off_Lamp,l
@@ -2290,7 +2290,6 @@ obj/Release/apps/user_app/led_strip/led_strip_sys.o
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,ls_set_motor_speed,pl
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,power_motor_Init,pl
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,ls_set_motor_off,pl
--r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,os_time_dly,
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,ls_1H_close,pl
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,get_on_off_state,pl
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,set_on_off_led,pl
@@ -2461,9 +2460,6 @@ obj/Release/apps/user_app/rf24g_key/rf24g_app.o
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,memcpy,l
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,RF24G_Key_Handle,pl
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,printf,l
--r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,one_wire_set_mode,l
--r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,one_wire_set_period,l
--r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,os_taskq_post,
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,soft_turn_on_the_light,l
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,get_on_off_state,l
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,ls_sub_bright,l
@@ -2474,7 +2470,11 @@ obj/Release/apps/user_app/rf24g_key/rf24g_app.o
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,ls_add_sensitive,l
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,ls_Sub_CW,l
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,ls_Add_CW,l
+-r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,one_wire_set_period,l
+-r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,one_wire_set_mode,l
+-r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,os_taskq_post,
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,fb_motor_speed,l
+-r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,fb_motor_mode,l
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,ls_1H_close,l
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,ls_chose_mode_InAPP,l
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,ls_cycle_music_effect,l
