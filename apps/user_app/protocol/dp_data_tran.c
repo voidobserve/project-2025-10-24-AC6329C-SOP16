@@ -661,7 +661,9 @@ void parse_zd_data(unsigned char *LedCommand)
                     break; // YELLOW
 
                 case 5:
+                    // 这个紫色亮度不够高：
                     set_static_mode((PURPLE >> 16) & 0xff, (PURPLE >> 8) & 0xff, (PURPLE >> 0) & 0xff);
+                    // set_static_mode(0xFF, 0x00, 0xFF);
                     break; // PURPLE
 
                 case APP_COLORFUL_ANIMATION_INDEX_COOL_WHITE: // 静态冷白

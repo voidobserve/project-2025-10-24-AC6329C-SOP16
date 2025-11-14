@@ -127,6 +127,7 @@ void ws281x_show(unsigned char *pixels_pattern, unsigned short pattern_size)
 
 #elif LED_STRIP_RGBCW
 
+    extern void fc_rgbcw_driver(u8 r, u8 g, u8 b);
     fc_rgbcw_driver(*pixels_pattern,    \
                 *(pixels_pattern + 1),\
                 *(pixels_pattern + 2));

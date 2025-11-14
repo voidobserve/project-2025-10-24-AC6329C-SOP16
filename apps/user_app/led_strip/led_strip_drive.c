@@ -194,18 +194,24 @@ void fc_rgbcw_driver(u8 r, u8 g, u8 b)
     duty2 = b * 10000 / 255; // 占空比转为0~10000
     duty3 = g * 10000 / 255; // 占空比转为0~010000
 
-    if (fc_effect.Now_state == ACT_CW)
+    if (fc_effect.Now_state == ACT_CW ||
+        (fc_effect.Now_state == IS_light_scene &&
+             (MODE_COOL_WHITE_BREATHING == fc_effect.dream_scene.change_type) ||
+         (MODE_WARM_WHITE_BREATHING == fc_effect.dream_scene.change_type)))
     {
+        // 处于冷白、暖白调节时，RGB通道的PWM输出0%占空比
+        // 处于冷白呼吸、暖白呼吸模式时，不关闭控制CW的pwm
         mcpwm_set_duty(pwm_ch0, 0);
         mcpwm_set_duty(pwm_ch1, 0);
         mcpwm_set_duty(pwm_ch2, 0);
     }
-    else if (fc_effect.Now_state == IS_light_scene &&
-                 (MODE_COOL_WHITE_BREATHING == fc_effect.dream_scene.change_type) ||
-             (MODE_WARM_WHITE_BREATHING == fc_effect.dream_scene.change_type))
-    {
-        // 处于冷白呼吸、暖白呼吸模式时，不关闭控制CW的pwm
-    }
+    // else if (fc_effect.Now_state == IS_light_scene &&
+    //              (MODE_COOL_WHITE_BREATHING == fc_effect.dream_scene.change_type) ||
+    //          (MODE_WARM_WHITE_BREATHING == fc_effect.dream_scene.change_type))
+    // {
+    //     // 处于冷白呼吸、暖白呼吸模式时，不关闭控制CW的pwm
+
+    // }
     else
     {
         // 设置一个通道的占空比

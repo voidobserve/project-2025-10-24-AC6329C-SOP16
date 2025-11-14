@@ -549,6 +549,10 @@ void base_Dynamic_Effect(u8 tp_num)
     {
         fc_effect.dream_scene.change_type = MODE_COOL_WHITE_BREATHING;
         fc_effect.dream_scene.c_n = 1;
+        // fc_effect.dream_scene.rgb[0].r = 0x00;
+        // fc_effect.dream_scene.rgb[0].g = 0x00;
+        // fc_effect.dream_scene.rgb[0].b = 0x00;
+        // fc_effect.dream_scene.rgb[0].cw = 0x00;
         fc_effect.Now_state = IS_light_scene;
     }
     break;
@@ -557,6 +561,10 @@ void base_Dynamic_Effect(u8 tp_num)
     {
         fc_effect.dream_scene.change_type = MODE_WARM_WHITE_BREATHING;
         fc_effect.dream_scene.c_n = 1;
+        // fc_effect.dream_scene.rgb[0].r = 0x00;
+        // fc_effect.dream_scene.rgb[0].g = 0x00;
+        // fc_effect.dream_scene.rgb[0].b = 0x00;
+        // fc_effect.dream_scene.rgb[0].cw = 0x00;
         fc_effect.Now_state = IS_light_scene;
     }
     break;
@@ -743,7 +751,7 @@ static void ls_scene_effect(void)
             fc_effect.dream_scene.speed, // 速 度
             SIZE_MEDIUM                  // 选项，这里像素点大小：3
         );
-        WS2812FX_set_coloQty(0, fc_effect.dream_scene.c_n);
+        WS2812FX_set_coloQty(0, fc_effect.dream_scene.c_n); // 设置颜色数量
         WS2812FX_setColors(0, BLACK);
         WS2812FX_start();
     }
@@ -760,7 +768,7 @@ static void ls_scene_effect(void)
             fc_effect.dream_scene.speed, // 速 度
             SIZE_MEDIUM                  // 选项，这里像素点大小：3
         );
-        WS2812FX_set_coloQty(0, fc_effect.dream_scene.c_n);
+        WS2812FX_set_coloQty(0, fc_effect.dream_scene.c_n); // 设置颜色数量
         WS2812FX_setColors(0, BLACK);
         WS2812FX_start();
     }
