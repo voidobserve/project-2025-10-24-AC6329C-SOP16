@@ -1,5 +1,7 @@
-#ifndef _HARDWARE_H_
-#define _HARDWARE_H_
+#ifndef __HARDWARE_H__
+#define __HARDWARE_H__
 
+void open_fan(void);
+void close_fan(void);
 
 #endif

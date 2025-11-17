@@ -36305,12 +36305,12 @@
 	"system/debug.h"
 	"smartbox_extra_flash_opt.h"
 
-1719394644 source:d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\user_app\hardware\hardware.c
+1763362134 source:d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\user_app\hardware\hardware.c
 	"hardware.h"
 	"gpio.h"
 	"led_strand_effect.h"
 
-1719196543 d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\user_app\hardware\hardware.h
+1763360963 d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\user_app\hardware\hardware.h
 
 1762305574 d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\user_app\led_strip\led_strand_effect.h
 	"cpu.h"
@@ -36369,12 +36369,13 @@
 	"asm/mcpwm.h"
 	"led_strand_effect.h"
 
-1762332000 source:d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\user_app\led_strip\led_strip_sys.c
+1763361152 source:d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\user_app\led_strip\led_strip_sys.c
 	"includes.h"
 	"led_strip_sys.h"
 	"Adafruit_NeoPixel.H"
 	"led_strand_effect.h"
 	"../../../apps/user_app/one_wire/one_wire.h"
+	"../../../apps/user_app/hardware/hardware.h"
 
 1719994438 source:d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\user_app\led_strip\led_strip_voice.c
 	"led_strip_voice.h"
@@ -36470,7 +36471,7 @@
 	<stdlib.h>
 	<string.h>
 
-1762151972 source:d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\spp_and_le\app_main.c
+1763346273 source:d:\a_workst\aworkst\99-以往项目\t--天奕\2025-10-24-天奕-rgbcw户外光纤灯-ac6329c-sop16\code\project-2025-10-24-ac6329c-sop16\apps\spp_and_le\app_main.c
 	"system/includes.h"
 	"app_config.h"
 	"app_action.h"

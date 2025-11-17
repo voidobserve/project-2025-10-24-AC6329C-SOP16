@@ -16,12 +16,14 @@ void open_fan(void)
 {
     gpio_direction_output(IO_PORT_DM,1);
 
+    // printf("fan open\n");
 }
 
 void close_fan(void)
 {
     gpio_direction_output(IO_PORT_DM,0);
 
+    // printf("fan close\n");
 }
 
 

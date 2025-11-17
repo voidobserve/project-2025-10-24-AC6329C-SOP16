@@ -5,6 +5,7 @@
 #include "led_strand_effect.h"
 
 #include "../../../apps/user_app/one_wire/one_wire.h"
+#include "../../../apps/user_app/hardware/hardware.h"
 
 #define MAX_BRIGHT_RANK 10
 #define MAX_SPEED_RANK 10
@@ -116,7 +117,7 @@ void soft_turn_on_the_light(void) // 软开灯处理
     printf("fc_effect.star_speed_index %u\n", (u16)fc_effect.star_speed_index); // 打印电机的速度索引
 
     WS2812FX_start();
-    // open_fan();
+    open_fan();
     set_fc_effect();         // 七彩灯动画效果
     ls_meteor_stat_effect(); // 流星灯动画效果
     fb_led_on_off_state();   // 与app同步开关状态
@@ -142,7 +143,7 @@ void soft_turn_off_lights(void) // 软关灯处理
 
     WS2812FX_stop();
     WS2812FX_strip_off();
-    // close_fan();
+    close_fan();
     turn_Off_Lamp();
     fb_led_on_off_state();  // 与app同步开关状态
     save_user_data_area3(); // 保存参数配置到flash

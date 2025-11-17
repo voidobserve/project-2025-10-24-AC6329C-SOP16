@@ -442,7 +442,7 @@ void my_main(void)
     led_gpio_init();
     led_pwm_init(); // 硬件PWM
     mic_gpio_init();
-    // fan_gpio_init();
+    fan_gpio_init();
     led_state_init();
     mcu_com_init(); // 电机一线通信
 

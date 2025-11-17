@@ -2232,6 +2232,7 @@ obj/Release/apps/user_app/led_strip/led_strip_sys.o
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,os_taskq_post,
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,printf,l
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,WS2812FX_start,l
+-r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,open_fan,l
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,set_fc_effect,l
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,ls_meteor_stat_effect,l
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,fb_led_on_off_state,l
@@ -2241,6 +2242,7 @@ obj/Release/apps/user_app/led_strip/led_strip_sys.o
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,one_wire_set_mode,l
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,WS2812FX_stop,l
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,WS2812FX_strip_off,l
+-r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,close_fan,l
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,turn_Off_Lamp,l
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,app_set_bright,pl
 -r=obj/Release/apps/user_app/led_strip/led_strip_sys.o,WS2812FX_setBrightness,l
@@ -2866,6 +2868,7 @@ obj/Release/apps/spp_and_le/app_main.o
 -r=obj/Release/apps/spp_and_le/app_main.o,led_gpio_init,l
 -r=obj/Release/apps/spp_and_le/app_main.o,led_pwm_init,l
 -r=obj/Release/apps/spp_and_le/app_main.o,mic_gpio_init,l
+-r=obj/Release/apps/spp_and_le/app_main.o,fan_gpio_init,l
 -r=obj/Release/apps/spp_and_le/app_main.o,led_state_init,l
 -r=obj/Release/apps/spp_and_le/app_main.o,mcu_com_init,l
 -r=obj/Release/apps/spp_and_le/app_main.o,task_create,l
