@@ -161,4 +161,6 @@ unsigned long string_hex_Byte(char *str, unsigned char Byte_num);
 unsigned short dp_extract_data_handle(unsigned char *buff);
 extern void printf_buf(u8 *buf, u32 len);
 
+void parse_zd_data(unsigned char *LedCommand);
+
 #endif

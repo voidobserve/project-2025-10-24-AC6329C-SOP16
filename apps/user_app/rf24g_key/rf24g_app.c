@@ -148,6 +148,8 @@ void RF24G_Key_Handle(void)
         // 开/关
         if (key_value == RF24_ON_OFF)
         {
+            printf("key power click\n");
+
             // motor_Init();
             if (DEVICE_OFF == fc_effect.on_off_flag)
             {
@@ -155,39 +157,18 @@ void RF24G_Key_Handle(void)
             }
         }
 
-        /*
-            用电机短按按键事件来测试电池是否能够启动和停止：
-        */
-        // if(key_value == RF24_M) // 电机按键短按
-        // {
-        //     motor_Init();
-        //     if (fc_effect.motor_on_off == DEVICE_ON)
-        //     {
-        //         fc_effect.motor_on_off = DEVICE_OFF;
-        //         one_wire_set_mode(4); // 电机正转
-        //     }
-        //     else
-        //     {
-        //         fc_effect.motor_on_off = DEVICE_ON;
-        //         one_wire_set_mode(6); // 电机停止
-        //     }
-
-        //     // enable_one_wire();
-        //     os_taskq_post("msg_task", 1, MSG_SEQUENCER_ONE_WIRE_SEND_INFO);
-        // }
-
         if (get_on_off_state())
         {
-
             if (key_value == RF24_BRT_SUB)
             {
-
-                ls_sub_bright();
+                printf("brt sub click\n");
+                ls_sub_bright(); // 只有处于静态模式、调节色温模式，才进入
                 ls_add_speed();
                 ls_sub_sensitive();
             }
             if (key_value == RF24_BRT_PUL)
             {
+                printf("brt add click\n");
                 ls_add_bright();
                 ls_sub_speed();
                 ls_add_sensitive();
@@ -196,18 +177,21 @@ void RF24G_Key_Handle(void)
             // 暖光
             if (key_value == RF24_WARM)
             {
-
+                printf("warm click\n");
                 ls_Sub_CW();
             }
             // 冷光
             if (key_value == RF24_WHITE)
             {
+                printf("white click\n");
                 ls_Add_CW();
             }
 
             // 短按电机转速选择（电机360度连续转动）
             if (key_value == RF24_M)
             {
+                printf("m click\n");
+
                 // ls_set_motor_speed();
                 if (DEVICE_OFF == fc_effect.motor_on_off &&
                     fc_effect.star_speed_index >= ARRAY_SIZE(motor_period))
@@ -285,35 +269,237 @@ void RF24G_Key_Handle(void)
             // 1H
             if (key_value == RF24_1H)
             {
+                printf("1H click\n");
+
                 ls_1H_close();
             }
-            // 1 7色跳变
+
             if (key_value == RF24_ONE)
             {
-                ls_chose_mode_InAPP(1, 3, 0x08, 0x08);
+                printf("1 click\n");
+
+                // ls_chose_mode_InAPP(1, 3, 0x08, 0x08); // 三色跳变 (原本的功能)
+
+                if (DEVICE_OFF == fc_effect.on_off_flag)
+                {
+                    // 设备是关闭的，直接退出
+                    return;
+                }
+
+                if (fc_effect.Now_state == IS_light_scene &&          // 七彩灯处于动态模式
+                    fc_effect.dream_scene.change_type == MODE_JUMP && // 七彩灯跳变
+                    fc_effect.dream_scene.c_n == 3                    // 目前七彩灯使用 3 种颜色
+                )
+                {
+                    // 如果当前的功能是 三色跳变 ， 改成 七色跳变
+                    ls_set_color(0, BLUE);
+                    ls_set_color(1, GREEN);
+                    ls_set_color(2, RED);
+                    ls_set_color(3, WHITE);
+                    ls_set_color(4, YELLOW);
+                    ls_set_color(5, CYAN);
+                    ls_set_color(6, PURPLE);
+                    fc_effect.Now_state = IS_light_scene;
+                    fc_effect.dream_scene.change_type = MODE_JUMP;
+                    fc_effect.dream_scene.c_n = 7;
+                }
+                else
+                {
+                    // 如果当前的功能不是 三色跳变 ， 默认改成 三色跳变
+                    ls_set_color(0, BLUE);
+                    ls_set_color(1, GREEN);
+                    ls_set_color(2, RED);
+                    fc_effect.Now_state = IS_light_scene;
+                    fc_effect.dream_scene.change_type = MODE_JUMP;
+                    fc_effect.dream_scene.c_n = 3;
+                }
+
+                set_fc_effect();
             }
-            // 2 七色渐变
+
             if (key_value == RF24_TWO)
             {
-                ls_chose_mode_InAPP(1, 3, 0x0a, 0x0a);
+                printf("2 click\n");
+
+                // ls_chose_mode_InAPP(1, 3, 0x0a, 0x0a); // 三色渐变 (原本的功能)
+
+                if (DEVICE_OFF == fc_effect.on_off_flag)
+                {
+                    // 设备是关闭的，直接退出
+                    return;
+                }
+
+                if (fc_effect.Now_state == IS_light_scene &&                     // 七彩灯处于动态模式
+                    fc_effect.dream_scene.change_type == MODE_MUTIL_C_GRADUAL && // 七彩灯 渐变
+                    fc_effect.dream_scene.c_n == 3                               // 目前七彩灯使用 3 种颜色
+                )
+                {
+                    // 如果当前的功能是 三色渐变 ， 改成 七色渐变
+                    ls_set_color(0, BLUE);
+                    ls_set_color(1, GREEN);
+                    ls_set_color(2, RED);
+                    ls_set_color(3, WHITE);
+                    ls_set_color(4, YELLOW);
+                    ls_set_color(5, CYAN);
+                    ls_set_color(6, PURPLE);
+                    fc_effect.dream_scene.change_type = MODE_MUTIL_C_GRADUAL;
+                    fc_effect.dream_scene.c_n = 7;
+                    fc_effect.Now_state = IS_light_scene;
+
+                    printf("7 gradual\n");
+                }
+                else
+                {
+                    // 如果当前功能不是 三色渐变  , 默认改成 三色渐变
+                    ls_set_color(0, BLUE);
+                    ls_set_color(1, GREEN);
+                    ls_set_color(2, RED);
+                    fc_effect.dream_scene.change_type = MODE_MUTIL_C_GRADUAL;
+                    fc_effect.dream_scene.c_n = 3;
+                    fc_effect.Now_state = IS_light_scene;
+
+                    printf("3 gradual\n");
+                }
+
+                set_fc_effect();
             }
+
             // 3 七色呼吸
+            // USER_TO_DO 改成 8个单色呼吸（通过按键切换）和 8色轮流呼吸
             if (key_value == RF24_THREE)
             {
+                printf("3 click\n");
+                // ls_chose_mode_InAPP(1, 0, 0x0B, 0x11); // 原本的功能
 
-                ls_chose_mode_InAPP(1, 0, 0x0B, 0x11);
+                static u8 index = 0; // 动画索引
+                index++;
+
+                /*
+                    如果之前不是七彩灯的单色呼吸模式，将动画索引清零，重新开始索引
+
+                    对应七彩灯的单色呼吸模式（不含冷白呼吸、暖白呼吸、混白呼吸）：
+                    这里的2，一个是黑色BLACK，一个是对应的单色
+                    (2 == fc_effect.dream_scene.c_n && MODE_MUTIL_C_GRADUAL == fc_effect.dream_scene.change_type)
+
+                    对应七彩灯的冷白或暖白呼吸：
+                    (1 == fc_effect.dream_scene.c_n &&
+                        (MODE_COOL_WHITE_BREATHING == fc_effect.dream_scene.change_type ||
+                         MODE_WARM_WHITE_BREATHING == fc_effect.dream_scene.change_type))
+                */
+                if (!(IS_light_scene == fc_effect.Now_state && /* 七彩灯 动态模式 */
+                      ((2 == fc_effect.dream_scene.c_n &&
+                        MODE_MUTIL_C_GRADUAL == fc_effect.dream_scene.change_type) || /* 七彩灯 呼吸 */
+                       (1 == fc_effect.dream_scene.c_n &&
+                        (MODE_COOL_WHITE_BREATHING == fc_effect.dream_scene.change_type ||
+                         MODE_WARM_WHITE_BREATHING == fc_effect.dream_scene.change_type)))) /* 七彩灯 冷白或暖白呼吸 */
+                )
+                {
+                    index = 0;
+                }
+
+                if (index >= 8)
+                {
+                    /*
+                        0 ~ 5，对应6个单色呼吸，
+                        6 ，对应暖白呼吸
+                        7 ，对应冷白呼吸
+                    */
+                    // 将 index 的范围限制在 0 ~ 7，
+                    index = 0;
+                }
+
+                if (index <= 5)
+                {
+                    const u32 color_buff[6] = {
+                        RED,
+                        BLUE,
+                        GREEN,
+                        CYAN,
+                        YELLOW,
+                        PURPLE};
+                    ls_set_color(0, color_buff[index]);
+                    ls_set_color(1, BLACK);
+                    fc_effect.dream_scene.change_type = MODE_SINGLE_C_BREATH;
+                    fc_effect.dream_scene.c_n = 2;
+                    fc_effect.Now_state = IS_light_scene;
+                }
+                else if (6 == index)
+                {
+                    // 冷白呼吸
+                    fc_effect.dream_scene.change_type = MODE_COOL_WHITE_BREATHING;
+                    fc_effect.dream_scene.c_n = 1;
+                    fc_effect.Now_state = IS_light_scene;
+                }
+                else if (7 == index)
+                {
+                    // 暖白呼吸
+                    fc_effect.dream_scene.change_type = MODE_WARM_WHITE_BREATHING;
+                    fc_effect.dream_scene.c_n = 1; 
+                    fc_effect.Now_state = IS_light_scene;
+                }
             }
+
             // read 多种音乐律动切换
             if (key_value == RF24_READ)
             {
-
+                printf("book click\n");
                 ls_cycle_music_effect();
             }
+
             // ninght 多种RGB变化模式选择，RGB 静态颜色选择
             if (key_value == RF24_NIGHT)
             {
+                printf("moon click\n");
+                // ls_function_one(); // 原本的功能（旧版）
 
-                ls_function_one();
+                // 目前使用6种颜色 + 静态冷白 + 静态暖白
+                const u32 colors_buff[6] = {
+                    RED,
+                    BLUE,
+                    GREEN,
+                    CYAN,
+                    YELLOW,
+                    PURPLE,
+                };
+
+                fc_effect.night_index++; // 索引范围： 0 ~ 7，共对应8种静态颜色
+                if (fc_effect.night_index >= 8)
+                {
+                    fc_effect.night_index = 0;
+                }
+
+                // printf("fc_effect.night_index: %u\n", (u16)fc_effect.night_index);
+
+                if (fc_effect.night_index < 6) // 0 ~ 5
+                {
+                    u32 color = colors_buff[fc_effect.night_index];
+                    set_static_mode((color >> 16) & 0xFF,
+                                    (color >> 8) & 0xFF,
+                                    (color >> 0) & 0xFF);
+                }
+                else
+                {
+                    // 冷白色：
+                    if (6 == fc_effect.night_index)
+                    {
+                        fc_effect.rgb.r = 0;
+                        fc_effect.rgb.g = 0;
+                        fc_effect.rgb.b = 0;
+                        fc_effect.Now_state = ACT_CW;
+                        app_set_cw(100, 0x00); // 这个函数传参范围只能是 0 ~ 100
+                    }
+                    else if (7 == fc_effect.night_index)
+                    {
+                        // 暖白色：
+                        fc_effect.rgb.r = 0;
+                        fc_effect.rgb.g = 0;
+                        fc_effect.rgb.b = 0;
+                        fc_effect.Now_state = ACT_CW;
+                        app_set_cw(0x00, 100); // 这个函数传参范围只能是 0 ~ 100
+                    }
+
+                    set_fc_effect();
+                }
             }
         }
 
@@ -326,6 +512,8 @@ void RF24G_Key_Handle(void)
         is_rf24g_.last_key_v = NO_KEY;
     }
 
+    // =============================================================================================
+    // 长按事件 LONG 处理：
     if (is_rf24g_.long_press_cnt > is_rf24g_.is_long)
     {
 
@@ -340,6 +528,7 @@ void RF24G_Key_Handle(void)
         /* code */
         if (key_value == RF24_ON_OFF)
         {
+            printf("power long\n");
             // motor_Init();
             // ls_set_motor_off(); // 关电机
 
@@ -362,6 +551,7 @@ void RF24G_Key_Handle(void)
             // 长按电机停止（对孔）
             if (key_value == RF24_M)
             {
+                printf("M long\n");
                 // motor_Init();
                 // ls_set_motor_off();
                 fc_effect.motor_on_off = DEVICE_OFF;
@@ -373,19 +563,27 @@ void RF24G_Key_Handle(void)
         // 暖光
         if (key_value == RF24_WARM)
         {
+            printf("warm long\n");
+
             ls_Slight_Sub_CW();
         }
         // 冷光
         if (key_value == RF24_WHITE)
         {
+            printf("white long\n");
+
             ls_Slight_Add_CW();
         }
         if (key_value == RF24_BRT_SUB)
         {
+            printf("brt sub long\n");
+
             ls_slight_sub_bright();
         }
         if (key_value == RF24_BRT_PUL)
         {
+            printf("brt add long\n");
+
             ls_slight_add_bright();
         }
 

@@ -6,6 +6,7 @@
 
 #include "../../../apps/user_app/one_wire/one_wire.h"
 #include "../../../apps/user_app/hardware/hardware.h"
+#include "../../../apps/user_app/protocol/dp_data_tran.h"
 
 #define MAX_BRIGHT_RANK 10
 #define MAX_SPEED_RANK 10
@@ -77,7 +78,7 @@ void fc_data_init(void)
     fc_effect.base_ins.music_mode = 0;
     fc_effect.motor_on_off = DEVICE_ON;
 
-    fc_effect.nihgt_index = 0;
+    fc_effect.night_index = 0;
 
     // 测试时使用：
     // fc_effect.dream_scene.change_type = MODE_COOL_WHITE_BREATHING;
@@ -101,7 +102,7 @@ void soft_turn_on_the_light(void) // 软开灯处理
 {
     fc_effect.on_off_flag = DEVICE_ON;
 
-    motor_Init(); 
+    motor_Init();
 
     if (DEVICE_ON == fc_effect.motor_on_off)
     {
@@ -326,18 +327,21 @@ void ls_slight_add_bright(void)
  */
 void ls_add_speed(void)
 {
-    if (fc_effect.Now_state == IS_light_scene)
+    if (IS_light_scene != fc_effect.Now_state)
     {
-
-        if (fc_effect.ls_speed > 0)
-            fc_effect.ls_speed--;
-        fc_effect.app_speed = 100 - (fc_effect.ls_speed) * 10;
-        fc_effect.dream_scene.speed = led_speed_array[fc_effect.ls_speed];
-        fb_speed();
-        set_fc_effect();
+        return; // 如果当前不是动态模式，直接退出
     }
 
-    printf("  fc_effect.dream_scene.speed = %d", fc_effect.dream_scene.speed);
+    if (fc_effect.ls_speed > 0)
+    {
+        fc_effect.ls_speed--;
+    }
+
+    fc_effect.app_speed = 100 - (fc_effect.ls_speed) * 10;
+    fc_effect.dream_scene.speed = led_speed_array[fc_effect.ls_speed];
+    fb_speed();
+    set_fc_effect();
+    printf("fc_effect.dream_scene.speed = %d\n", fc_effect.dream_scene.speed);
 }
 
 /**
@@ -346,18 +350,20 @@ void ls_add_speed(void)
  */
 void ls_sub_speed(void)
 {
-
-    if (fc_effect.Now_state == IS_light_scene)
+    if (IS_light_scene != fc_effect.Now_state)
     {
-
-        if (fc_effect.ls_speed < (MAX_SPEED_RANK - 1))
-            fc_effect.ls_speed++;
-        fc_effect.app_speed = 100 - (fc_effect.ls_speed) * 10;
-        fc_effect.dream_scene.speed = led_speed_array[fc_effect.ls_speed];
-        fb_speed();
-        set_fc_effect();
+        return; // 如果当前不是动态模式，直接退出
     }
-    printf("  fc_effect.dream_scene.speed = %d", fc_effect.dream_scene.speed);
+
+    if (fc_effect.ls_speed < (MAX_SPEED_RANK - 1))
+    {
+        fc_effect.ls_speed++;
+    }
+    fc_effect.app_speed = 100 - (fc_effect.ls_speed) * 10;
+    fc_effect.dream_scene.speed = led_speed_array[fc_effect.ls_speed];
+    fb_speed();
+    set_fc_effect();
+    printf("fc_effect.dream_scene.speed = %d\n", fc_effect.dream_scene.speed);
 }
 
 /**
@@ -971,6 +977,12 @@ void set_static_mode(u8 r, u8 g, u8 b)
     set_fc_effect(); // 效果调度
 }
 
+/**
+ * @brief 设置 暖白色、冷白色对应的pwm占空比值
+ * 
+ * @param tp_c 冷白色 ， 范围：0 ~ 100
+ * @param tp_w 暖白色 ， 范围：0 ~ 100
+ */
 void app_set_cw(u8 tp_c, u8 tp_w)
 {
 
@@ -981,25 +993,44 @@ void app_set_cw(u8 tp_c, u8 tp_w)
     cw_driver(tp_c, tp_w);
 }
 
+/*
+    12级均匀调节查找表（实际有十三级，但是通过遥控器从最大值调到最小值是按12下，从最小值调到最大值是按12下）
+    每8.33划分一级，再取近似数
+*/
+static const u8 cw_levels[13] = {0, 8, 16, 25, 33, 41, 50, 58, 66, 75, 83, 91, 100};
 void ls_Add_CW(void)
 {
+    u8 i;
 
     fc_effect.Now_state = ACT_CW;
-    if (fc_effect.rgb.cw < 100)
-        fc_effect.rgb.cw += 20;
-    if (fc_effect.rgb.cw >= 100)
-        fc_effect.rgb.cw = 100;
+
+    // 查找下一个级别
+    for (i = 0; i < ARRAY_SIZE(cw_levels); i++)
+    {
+        if (fc_effect.rgb.cw < cw_levels[i + 1])
+        {
+            fc_effect.rgb.cw = cw_levels[i + 1];
+            break;
+        }
+    }
+
     set_fc_effect();
 }
 
 void ls_Sub_CW(void)
 {
-
+    u8 i = 0;
     fc_effect.Now_state = ACT_CW;
-    if (fc_effect.rgb.cw >= 20)
-        fc_effect.rgb.cw -= 20;
-    if (fc_effect.rgb.cw <= 20)
-        fc_effect.rgb.cw = 0;
+
+    // 查找下一个级别
+    for (i = 0; i < ARRAY_SIZE(cw_levels); i++)
+    {
+        if (fc_effect.rgb.cw > cw_levels[ARRAY_SIZE(cw_levels) - 1 - i])
+        {
+            fc_effect.rgb.cw = cw_levels[ARRAY_SIZE(cw_levels) - 1 - i];
+            break;
+        }
+    }
 
     set_fc_effect();
 }
@@ -1027,9 +1058,10 @@ void ls_Slight_Sub_CW(void)
 /**
  * @brief 选择app上某些效果，该些效果需要是有顺序的
  *
- * @param tp_type
- * @param tp_h
- * @param tp_t
+ * @param tp_type 
+ * @param tp_m 
+ * @param tp_h 
+ * @param tp_t 
  */
 void ls_chose_mode_InAPP(u8 tp_type, u8 tp_m, u8 tp_h, u8 tp_t)
 {
@@ -1085,28 +1117,27 @@ void ls_chose_mode_InAPP(u8 tp_type, u8 tp_m, u8 tp_h, u8 tp_t)
         uc_buff[1] = 0x02;
         uc_buff[2] = index_cmd;
     }
+
     printf_buf(uc_buff, 3);
     parse_zd_data(uc_buff);
 }
 
 void ls_function_one(void)
 {
-
-    if (fc_effect.nihgt_index < 6)
+    if (fc_effect.night_index < 6)
     {
-        fc_effect.nihgt_index++;
+        fc_effect.night_index++;
         ls_chose_mode_InAPP(1, 1, 0x00, 0x06);
     }
-    else if (fc_effect.nihgt_index >= 6)
+    else if (fc_effect.night_index >= 6)
     {
-
-        fc_effect.nihgt_index++;
+        fc_effect.night_index++;
         ls_chose_mode_InAPP(1, 1, 0x07, 0x1e);
     }
 
-    if (fc_effect.nihgt_index > 30)
+    if (fc_effect.night_index > 30)
     {
-        fc_effect.nihgt_index = 0;
+        fc_effect.night_index = 0;
     }
 }
 

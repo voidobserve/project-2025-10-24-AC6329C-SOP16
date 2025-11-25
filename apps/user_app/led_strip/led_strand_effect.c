@@ -8,6 +8,7 @@
 #include "asm/mcpwm.h"
 
 #include "../../../apps/user_app/protocol/dp_data_tran.h"
+#include "../../../apps/user_app/led_strip/led_strip_drive.h"
 
 volatile fc_effect_t fc_effect; // 幻彩灯串效果数据
 void set_fc_effect(void);
@@ -1151,9 +1152,13 @@ void set_fc_effect(void)
 
         // 暖白光模式
         case ACT_CW:
-
-            cw_driver(fc_effect.rgb.cw * (fc_effect.b * 100 / 255) / 100, (100 - fc_effect.rgb.cw) * (fc_effect.b * 100 / 255) / 100);
-            break;
+        {
+            cw_driver(fc_effect.rgb.cw *                    /* 冷白色分量 ， 范围：0 ~ 100 */
+                          (fc_effect.b * 100 / 255) / 100,  /* 亮度值分量 */
+                      (100 - fc_effect.rgb.cw) *            /* 暖白色分量 ， 范围：0 ~ 100 */
+                          (fc_effect.b * 100 / 255) / 100); /* 亮度值分量 */
+        }
+        break;
 
         // 音乐模式
         case IS_light_music:

@@ -51,11 +51,9 @@ struct RF24G_PARA
 // 天奕幻彩流星灯
 #define RF24_K1 0x06
 #define RF24_K2 0x01
-// #define RF24_K2 0x1E // 测试时使用
 #define RF24_K3 0x05
 #define RF24_K4 0x0C
 #define RF24_K5 0x0B
-// #define RF24_K5 0x2E // 测试时使用
 #define RF24_K6 0x07
 #define RF24_K7 0x11
 #define RF24_K8 0x12

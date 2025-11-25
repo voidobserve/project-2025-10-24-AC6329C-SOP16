@@ -10,7 +10,7 @@
 
 
 
-
+void cw_driver(u16 C, u16 W);
 
 void led_state_init(void);
 void led_gpio_init(void);

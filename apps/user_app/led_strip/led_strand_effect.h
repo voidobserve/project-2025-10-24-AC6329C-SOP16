@@ -173,7 +173,7 @@ typedef struct
   unsigned char app_star_speed;
   unsigned char star_speed_index; // 电机速度值索引
 
-  unsigned char nihgt_index;
+  unsigned char night_index;
 
 
 } fc_effect_t;
@@ -187,7 +187,7 @@ countdown_t zd_countdown[ALARM_NUMBER];
 
 extern volatile fc_effect_t fc_effect;//幻彩灯串效果数据
 
-
+void ls_set_color(uint8_t n, uint32_t c);
 
 void base_Dynamic_Effect(u8 tp_num);
 

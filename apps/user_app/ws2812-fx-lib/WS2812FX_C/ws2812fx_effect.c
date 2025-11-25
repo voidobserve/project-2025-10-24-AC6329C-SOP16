@@ -2397,8 +2397,8 @@ uint16_t WS2812FX_mutil_c_jump(void)
 }
 
 // 整条灯带渐变，支持多种颜色之间切换
-// 颜色池：fc_effect.dream_scene.rgb[]
-// 颜色数量fc_effect.dream_scene.c_n
+// 颜色池： fc_effect.dream_scene.rgb[]
+// 颜色数量 fc_effect.dream_scene.c_n
 uint16_t WS2812FX_mutil_c_gradual(void)
 {
     static uint8_t index;
@@ -2470,7 +2470,8 @@ uint16_t breath_w(void)
         _seg_rt->counter_mode_step = 5;
         SET_CYCLE;
         ws2811fx_set_cycle = 1;
-    }
+    } 
+
     return (fc_effect.dream_scene.speed / 50 * 10 + fc_effect.dream_scene.speed % 50); // 原来的速度对遥控调速变化太大了
 }
 
@@ -2485,7 +2486,7 @@ u16 cool_white_breathing(void)
 
     Adafruit_NeoPixel_fill(BLACK, _seg->start, _seg_len);
     // fc_rgbcw_driver(0x00, 0x00, 0x00);
-    uint32_t color = WS2812FX_color_blend(0x00, 0xFFFFFFFF, lum); // 只利用 WS2812FX_color_blend() 生成指定亮度的颜色 
+    uint32_t color = WS2812FX_color_blend(0x00, 0xFFFFFFFF, lum); // 只利用 WS2812FX_color_blend() 生成指定亮度的颜色
     extern void app_set_cw(u8 tp_c, u8 tp_w);
     app_set_cw((color & 0xFF) * 100 / 0xFF, 0x00); // 设置驱动冷白色的pwm的占空比，暖白色固定为0（这个函数接口的传参范围是0~100）
 
@@ -2513,10 +2514,9 @@ u16 warm_white_breathing(void)
     if (lum > 255)
         lum = 511 - lum; // lum = 15 -> 255 -> 15
 
-    
     Adafruit_NeoPixel_fill(BLACK, _seg->start, _seg_len);
     // fc_rgbcw_driver(0x00, 0x00, 0x00);
-    uint32_t color = WS2812FX_color_blend(0x00, 0xFFFFFFFF, lum);// 只利用 WS2812FX_color_blend() 生成指定亮度的颜色
+    uint32_t color = WS2812FX_color_blend(0x00, 0xFFFFFFFF, lum); // 只利用 WS2812FX_color_blend() 生成指定亮度的颜色
     extern void app_set_cw(u8 tp_c, u8 tp_w);
     app_set_cw(0x00, (color & 0xFF) * 100 / 0xFF); // 设置驱动 暖白色的pwm的占空比，冷白色固定为0（这个函数接口的传参范围是0~100）
 

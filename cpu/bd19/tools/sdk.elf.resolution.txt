@@ -2478,9 +2478,12 @@ obj/Release/apps/user_app/rf24g_key/rf24g_app.o
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,fb_motor_speed,l
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,fb_motor_mode,l
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,ls_1H_close,l
+-r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,ls_set_color,l
+-r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,set_fc_effect,l
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,ls_chose_mode_InAPP,l
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,ls_cycle_music_effect,l
--r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,ls_function_one,l
+-r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,set_static_mode,l
+-r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,app_set_cw,l
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,save_user_data_area3,l
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,soft_turn_off_lights,l
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,ls_Slight_Sub_CW,l

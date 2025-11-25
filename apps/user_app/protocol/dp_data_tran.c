@@ -814,8 +814,6 @@ void parse_zd_data(unsigned char *LedCommand)
                 extern void one_wire_set_mode(u8 m);
                 // extern void enable_one_wire(void);
 
-                // 0x05 -- 声控模式，上电之后没有执行对应模式 USER_TO_DO
-
                 one_wire_set_mode(LedCommand[2]); // 配置模式
                 // os_time_dly(1);
                 // enable_one_wire();  //使用发送数据
@@ -826,8 +824,7 @@ void parse_zd_data(unsigned char *LedCommand)
                 if (LedCommand[2] == 0 && counting_flag == 0)
                 {
                     fc_effect.motor_on_off = DEVICE_OFF;
-                    // fc_effect.star_speed_index = ARRAY_SIZE(motor_period); // 让索引值超出数组的索引范围，表示关闭电机
-
+                    
                     counting_flag = 1; // 开始计时
                     set_time = 1;      // 允许修改时间
                 }

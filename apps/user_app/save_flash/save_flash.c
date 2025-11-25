@@ -56,9 +56,12 @@ void save_user_data_area3(void)
     save_data.header = 0x55;
 
     memcpy((u8*)(&save_data.fc_save) , (u8*)(&fc_effect), sizeof(fc_effect_t));
+
+    os_time_dly(1);
     syscfg_write(CFG_USER_LED_LEDGTH_DATA, (u8 *)(&save_data), sizeof(save_flash_t));
 
-}
+    os_time_dly(1);
+}   
 
 
 void read_user_data_area3(void)

@@ -116,4 +116,10 @@ typedef enum
     IR_TIMER_120MIN = 120*60*1000,
 }AUTO_TIME_T;
 
+void set_static_mode(u8 r, u8 g, u8 b);
+
+void ls_chose_mode_InAPP(u8 tp_type, u8 tp_m, u8 tp_h, u8 tp_t);
+
+void app_set_cw(u8 tp_c, u8 tp_w);
+
 #endif
