@@ -75,6 +75,7 @@ typedef enum
   MODE_COOL_WHITE_BREATHING, // 冷白呼吸
   MODE_WARM_WHITE_BREATHING, // 暖白呼吸
 
+  MODE_8_COLOR_BREATH, // 七彩灯8个颜色轮流呼吸，在原有的RGB颜色上，添加冷白呼吸和暖白呼吸
 
 } change_type_e;
 

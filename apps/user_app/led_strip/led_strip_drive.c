@@ -161,7 +161,8 @@ void fc_rgb_driver(u8 r, u8 g, u8 b)
 // 不能放在fc_drive 否则调节时会闪
 void cw_driver(u16 C, u16 W)
 {
-    printf("c  =%d, w =%d", C, W);
+    // printf("c  =%d, w =%d", C, W);
+
     // 占空比是0~10000
     mcpwm_set_duty(pwm_ch3, C * 100);
     set_timer_pwm_duty(JL_TIMER3, W * 100);
@@ -205,13 +206,17 @@ void fc_rgbcw_driver(u8 r, u8 g, u8 b)
         mcpwm_set_duty(pwm_ch1, 0);
         mcpwm_set_duty(pwm_ch2, 0);
     }
-    // else if (fc_effect.Now_state == IS_light_scene &&
-    //              (MODE_COOL_WHITE_BREATHING == fc_effect.dream_scene.change_type) ||
-    //          (MODE_WARM_WHITE_BREATHING == fc_effect.dream_scene.change_type))
-    // {
-    //     // 处于冷白呼吸、暖白呼吸模式时，不关闭控制CW的pwm
+    else if (
+        IS_light_scene == fc_effect.Now_state &&
+        (MODE_8_COLOR_BREATH == fc_effect.dream_scene.change_type))
+    {
+        // 处于8色轮流呼吸时，不关闭控制CW的PWM，根据传参设定对应的PWM占空比
 
-    // }
+        // 设置 通道的占空比
+        mcpwm_set_duty(pwm_ch0, duty1); // R
+        mcpwm_set_duty(pwm_ch1, duty2); // G
+        mcpwm_set_duty(pwm_ch2, duty3); // B
+    }
     else
     {
         // 设置一个通道的占空比

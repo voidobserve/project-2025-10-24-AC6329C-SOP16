@@ -676,6 +676,7 @@ void base_Dynamic_Effect(u8 tp_num)
     }
     break;
     }
+
     set_fc_effect();
 }
 
@@ -771,6 +772,23 @@ static void ls_scene_effect(void)
         );
         WS2812FX_set_coloQty(0, fc_effect.dream_scene.c_n); // 设置颜色数量
         WS2812FX_setColors(0, BLACK);
+        WS2812FX_start();
+    }
+    break;
+
+    case MODE_8_COLOR_BREATH:
+    {
+        WS2812FX_setSegment_colorOptions(
+            0,                              // 第0段
+            0,                              // 起始位置
+            0,                              // 结束位置
+            &colorful_light_8_color_breath, // 效果
+            0,                              // 颜色，WS2812FX_setColors设置
+            fc_effect.dream_scene.speed,    // 速 度
+            SIZE_MEDIUM                     // 选项，这里像素点大小：3
+        );
+        WS2812FX_set_coloQty(0, fc_effect.dream_scene.c_n); // 设置颜色数量
+        ls_set_colors(fc_effect.dream_scene.c_n, &fc_effect.dream_scene.rgb);
         WS2812FX_start();
     }
     break;
@@ -1141,22 +1159,35 @@ void set_fc_effect(void)
         // 配对模式
         case ACT_TY_PAIR:
             cw_driver(0, 0); // sjf
-            ls_ty_pair_effect();
+            // ls_ty_pair_effect();
             break;
 
         // 自定义效果模式
         case ACT_CUSTOM:
             cw_driver(0, 0); // sjf
-            ls_custom_effect();
+            // ls_custom_effect();
             break;
 
         // 暖白光模式
         case ACT_CW:
         {
-            cw_driver(fc_effect.rgb.cw *                    /* 冷白色分量 ， 范围：0 ~ 100 */
-                          (fc_effect.b * 100 / 255) / 100,  /* 亮度值分量 */
-                      (100 - fc_effect.rgb.cw) *            /* 暖白色分量 ， 范围：0 ~ 100 */
-                          (fc_effect.b * 100 / 255) / 100); /* 亮度值分量 */
+            // cw_driver(fc_effect.rgb.cw *                    /* 冷白色分量 ， 范围：0 ~ 100 */
+            //               (fc_effect.b * 100 / 255) / 100,  /* 亮度值分量 */
+            //           (100 - fc_effect.rgb.cw) *            /* 暖白色分量 ， 范围：0 ~ 100 */
+            //               (fc_effect.b * 100 / 255) / 100); /* 亮度值分量 */
+
+            WS2812FX_setSegment_colorOptions(
+                0,                           // 第0段
+                0,                           // 起始位置
+                0,                           // 结束位置
+                &colorful_adjust_cool_warm,  // 效果
+                0,                           // 颜色，WS2812FX_setColors设置
+                fc_effect.dream_scene.speed, // 速 度
+                NO_OPTIONS                  // 选项
+            );
+            // WS2812FX_set_coloQty(0, fc_effect.dream_scene.c_n); // 设置颜色数量
+            // ls_set_colors(fc_effect.dream_scene.c_n, &fc_effect.dream_scene.rgb);
+            WS2812FX_start();
         }
         break;
 

@@ -225,6 +225,11 @@ void app_set_speed(u8 tp_speed)
  */
 void ls_add_bright(void)
 {
+    if (IS_STATIC != fc_effect.Now_state && ACT_CW != fc_effect.Now_state)
+    {
+        // 如果不是七彩灯的静态模式，也不是调节色温的模式，直接返回
+        return;
+    }
 
     if (fc_effect.Now_state == IS_STATIC)
     {
@@ -256,6 +261,12 @@ void ls_add_bright(void)
  */
 void ls_sub_bright(void)
 {
+    if (IS_STATIC != fc_effect.Now_state && ACT_CW != fc_effect.Now_state)
+    {
+        // 如果不是七彩灯的静态模式，也不是调节色温的模式，直接返回
+        return;
+    }
+
     if (fc_effect.Now_state == IS_STATIC)
     {
         if (fc_effect.ls_b > 0)
@@ -384,12 +395,14 @@ void app_set_sensitive(u8 tp_s)
  */
 void ls_add_sensitive(void)
 {
-    u8 sen_gap = 10;
-    if (fc_effect.Now_state == IS_light_music)
+    if (IS_light_music != fc_effect.Now_state)
     {
-        if (fc_effect.music.s < (100 - sen_gap))
-            fc_effect.music.s += sen_gap;
+        return; // 如果当前不是音乐模式，直接退出
     }
+
+    u8 sen_gap = 10;
+    if (fc_effect.music.s < (100 - sen_gap))
+        fc_effect.music.s += sen_gap;
 
     printf(" fc_effect.music.s= %d", fc_effect.music.s);
 }
@@ -401,13 +414,15 @@ void ls_add_sensitive(void)
  */
 void ls_sub_sensitive(void)
 {
+    if (IS_light_music != fc_effect.Now_state)
+    {
+        return; // 如果当前不是音乐模式，直接退出
+    }
 
     u8 sen_gap = 10;
-    if (fc_effect.Now_state == IS_light_music)
-    {
-        if (fc_effect.music.s > sen_gap)
-            fc_effect.music.s -= sen_gap;
-    }
+    if (fc_effect.music.s > sen_gap)
+        fc_effect.music.s -= sen_gap;
+
     printf(" fc_effect.music.s= %d", fc_effect.music.s);
 }
 
@@ -979,7 +994,8 @@ void set_static_mode(u8 r, u8 g, u8 b)
 
 /**
  * @brief 设置 暖白色、冷白色对应的pwm占空比值
- * 
+ *      函数内部会设置 fc_effect.rgb.cw 的值
+ *
  * @param tp_c 冷白色 ， 范围：0 ~ 100
  * @param tp_w 暖白色 ， 范围：0 ~ 100
  */
@@ -1014,6 +1030,8 @@ void ls_Add_CW(void)
         }
     }
 
+    printf("fc_effect.rgb.cw = %u\n", (u16)fc_effect.rgb.cw);
+
     set_fc_effect();
 }
 
@@ -1031,6 +1049,8 @@ void ls_Sub_CW(void)
             break;
         }
     }
+
+    printf("fc_effect.rgb.cw = %u\n", (u16)fc_effect.rgb.cw);
 
     set_fc_effect();
 }
@@ -1058,10 +1078,10 @@ void ls_Slight_Sub_CW(void)
 /**
  * @brief 选择app上某些效果，该些效果需要是有顺序的
  *
- * @param tp_type 
- * @param tp_m 
- * @param tp_h 
- * @param tp_t 
+ * @param tp_type
+ * @param tp_m
+ * @param tp_h
+ * @param tp_t
  */
 void ls_chose_mode_InAPP(u8 tp_type, u8 tp_m, u8 tp_h, u8 tp_t)
 {

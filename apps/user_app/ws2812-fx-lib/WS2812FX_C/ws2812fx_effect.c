@@ -2470,7 +2470,7 @@ uint16_t breath_w(void)
         _seg_rt->counter_mode_step = 5;
         SET_CYCLE;
         ws2811fx_set_cycle = 1;
-    } 
+    }
 
     return (fc_effect.dream_scene.speed / 50 * 10 + fc_effect.dream_scene.speed % 50); // 原来的速度对遥控调速变化太大了
 }
@@ -2535,6 +2535,133 @@ u16 warm_white_breathing(void)
         ws2811fx_set_cycle = 1;
     }
     return (fc_effect.dream_scene.speed / 50 * 10 + fc_effect.dream_scene.speed % 50); // 原来的速度对遥控调速变化太大了
+}
+
+/**
+ * @brief 8种颜色轮流呼吸
+ *      例如：红色呼吸 -> 蓝色呼吸 -> ... -> 红色呼吸
+ *
+ *      _seg_rt->aux_param，当前呼吸使用的颜色索引
+ *      6 == _seg_rt->aux_param，目前固定使用冷白色
+ *      7 == _seg_rt->aux_param，目前固定使用暖白色
+ *
+ * @return u16
+ */
+u16 colorful_light_8_color_breath(void)
+{
+    // if (0 == _seg_rt->counter_mode_call)
+    // {
+    //     // 刚进入动画，让所有灯光熄灭
+    //     Adafruit_NeoPixel_fill(BLACK, _seg->start, _seg_len);
+    // }
+
+    if (0 <= _seg_rt->aux_param && 5 >= _seg_rt->aux_param)
+    {
+        // 0 ~ 5，共六种颜色，单色呼吸
+        int lum = _seg_rt->counter_mode_step;
+        if (lum > 255)
+            lum = 511 - lum; // lum = 15 -> 255 -> 15
+
+        uint32_t color = WS2812FX_color_blend(BLACK, _seg->colors[_seg_rt->aux_param], lum);
+        Adafruit_NeoPixel_fill(color, _seg->start, _seg_len);
+        if (_seg_rt->counter_mode_step < 35)
+        {
+            _seg_rt->counter_mode_step += 1;
+        }
+        else
+        {
+            _seg_rt->counter_mode_step += 2; // 不能修改+2，否则呼吸有明显的不流畅
+        }
+
+        if (_seg_rt->counter_mode_step > (512 - 5))
+        {
+            // _seg_rt->counter_mode_step = 5;
+            _seg_rt->counter_mode_step = 0; // 这里要设置成0，避免当前颜色呼吸结束，切换到下一轮呼吸时，当前颜色还没有熄灭
+            SET_CYCLE;
+            ws2811fx_set_cycle = 1;
+
+            _seg_rt->aux_param++; // 完成一轮呼吸后，切换到下一种颜色
+        }
+        // return (fc_effect.dream_scene.speed / 50 * 10 + fc_effect.dream_scene.speed % 50);
+    }
+    else if (6 == _seg_rt->aux_param)
+    {
+        // 冷白呼吸 动画
+
+        int lum = _seg_rt->counter_mode_step;
+        if (lum > 255)
+            lum = 511 - lum; // lum = 15 -> 255 -> 15
+
+        Adafruit_NeoPixel_fill(BLACK, _seg->start, _seg_len);
+        uint32_t color = WS2812FX_color_blend(0x00, 0xFFFFFFFF, lum); // 只利用 WS2812FX_color_blend() 生成指定亮度的颜色
+        app_set_cw((color & 0xFF) * 100 / 0xFF, 0x00);                // 设置驱动冷白色的pwm的占空比，暖白色固定为0（这个函数接口的传参范围是0~100）
+
+        if (_seg_rt->counter_mode_step < 35)
+        {
+            _seg_rt->counter_mode_step += 1;
+        }
+        else
+            _seg_rt->counter_mode_step += 2; // 不能修改+2，否则呼吸有明显的不流畅
+        if (_seg_rt->counter_mode_step > (512 - 5))
+        {
+            // _seg_rt->counter_mode_step = 5;
+            _seg_rt->counter_mode_step = 0; // 这里要设置成0，避免当前颜色呼吸结束，切换到下一轮呼吸时，当前颜色还没有熄灭
+
+            SET_CYCLE;
+            ws2811fx_set_cycle = 1;
+
+            _seg_rt->aux_param++; // 完成一轮呼吸后，切换到下一种颜色
+        }
+        // return (fc_effect.dream_scene.speed / 50 * 10 + fc_effect.dream_scene.speed % 50); // 原来的速度对遥控调速变化太大了
+    }
+    else if (7 == _seg_rt->aux_param)
+    {
+        // 暖白呼吸 动画
+
+        int lum = _seg_rt->counter_mode_step;
+        if (lum > 255)
+            lum = 511 - lum; // lum = 15 -> 255 -> 15
+
+        Adafruit_NeoPixel_fill(BLACK, _seg->start, _seg_len);
+        uint32_t color = WS2812FX_color_blend(0x00, 0xFFFFFFFF, lum); // 只利用 WS2812FX_color_blend() 生成指定亮度的颜色
+        app_set_cw(0x00, (color & 0xFF) * 100 / 0xFF);                // 设置驱动 暖白色的pwm的占空比，冷白色固定为0（这个函数接口的传参范围是0~100）
+
+        if (_seg_rt->counter_mode_step < 35)
+        {
+            _seg_rt->counter_mode_step += 1;
+        }
+        else
+            _seg_rt->counter_mode_step += 2; // 不能修改+2，否则呼吸有明显的不流畅
+        if (_seg_rt->counter_mode_step > (512 - 5))
+        {
+            // _seg_rt->counter_mode_step = 5;
+            _seg_rt->counter_mode_step = 0; // 这里要设置成0，避免当前颜色呼吸结束，切换到下一轮呼吸时，当前颜色还没有熄灭
+            SET_CYCLE;
+            ws2811fx_set_cycle = 1;
+
+            _seg_rt->aux_param = 0; // 完成一轮呼吸，到这里说明8色轮流呼吸已经执行完一轮，将索引清零，重新开始
+        }
+        // return (fc_effect.dream_scene.speed / 50 * 10 + fc_effect.dream_scene.speed % 50); // 原来的速度对遥控调速变化太大了
+    }
+
+    return (fc_effect.dream_scene.speed / 50 * 10 + fc_effect.dream_scene.speed % 50);
+}
+
+/**
+ * @brief 只调节七彩灯冷白灯、暖白灯的动画
+ *
+ * @return u16
+ */
+u16 colorful_adjust_cool_warm(void)
+{
+    // 熄灭 RGB ，让RGB对应的通道的PWM占空比为0：
+    Adafruit_NeoPixel_fill(BLACK, _seg->start, _seg_len);
+
+    cw_driver(fc_effect.rgb.cw *                    /* 冷白色分量 ， 范围：0 ~ 100 */
+                  (fc_effect.b * 100 / 255) / 100,  /* 亮度值分量 */
+              (100 - fc_effect.rgb.cw) *            /* 暖白色分量 ， 范围：0 ~ 100 */
+                  (fc_effect.b * 100 / 255) / 100); /* 亮度值分量 */
+    return 1;
 }
 
 // 支持多颜色频闪

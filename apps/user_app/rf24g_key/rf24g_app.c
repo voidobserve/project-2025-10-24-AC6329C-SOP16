@@ -364,8 +364,7 @@ void RF24G_Key_Handle(void)
                 set_fc_effect();
             }
 
-            // 3 七色呼吸
-            // USER_TO_DO 改成 8个单色呼吸（通过按键切换）和 8色轮流呼吸
+            // 8个单色呼吸（通过按键切换）和 8色轮流呼吸
             if (key_value == RF24_THREE)
             {
                 printf("3 click\n");
@@ -374,12 +373,21 @@ void RF24G_Key_Handle(void)
                 static u8 index = 0; // 动画索引
                 index++;
 
+                const u32 color_buff[6] = {
+                    RED,
+                    BLUE,
+                    GREEN,
+                    CYAN,
+                    YELLOW,
+                    PURPLE};
+
                 /*
                     如果之前不是七彩灯的单色呼吸模式，将动画索引清零，重新开始索引
 
                     对应七彩灯的单色呼吸模式（不含冷白呼吸、暖白呼吸、混白呼吸）：
                     这里的2，一个是黑色BLACK，一个是对应的单色
-                    (2 == fc_effect.dream_scene.c_n && MODE_MUTIL_C_GRADUAL == fc_effect.dream_scene.change_type)
+                    (2 == fc_effect.dream_scene.c_n &&
+                    MODE_SINGLE_C_BREATH == fc_effect.dream_scene.change_type)
 
                     对应七彩灯的冷白或暖白呼吸：
                     (1 == fc_effect.dream_scene.c_n &&
@@ -388,35 +396,36 @@ void RF24G_Key_Handle(void)
                 */
                 if (!(IS_light_scene == fc_effect.Now_state && /* 七彩灯 动态模式 */
                       ((2 == fc_effect.dream_scene.c_n &&
-                        MODE_MUTIL_C_GRADUAL == fc_effect.dream_scene.change_type) || /* 七彩灯 呼吸 */
+                        MODE_SINGLE_C_BREATH == fc_effect.dream_scene.change_type) || /* 七彩灯 呼吸 */
+
                        (1 == fc_effect.dream_scene.c_n &&
                         (MODE_COOL_WHITE_BREATHING == fc_effect.dream_scene.change_type ||
-                         MODE_WARM_WHITE_BREATHING == fc_effect.dream_scene.change_type)))) /* 七彩灯 冷白或暖白呼吸 */
-                )
+                         MODE_WARM_WHITE_BREATHING == fc_effect.dream_scene.change_type)) || /* 七彩灯 冷白或暖白呼吸 */
+
+                       (8 == fc_effect.dream_scene.c_n &&
+                        MODE_8_COLOR_BREATH == fc_effect.dream_scene.change_type) /* 七彩灯 8个颜色轮流呼吸 */
+                       )))
                 {
                     index = 0;
                 }
 
-                if (index >= 8)
+                if (index >= 9)
                 {
                     /*
                         0 ~ 5，对应6个单色呼吸，
                         6 ，对应暖白呼吸
                         7 ，对应冷白呼吸
+                        8 , 8个颜色轮流呼吸
                     */
-                    // 将 index 的范围限制在 0 ~ 7，
+                    // 将 index 的范围限制在 0 ~ 8，
                     index = 0;
                 }
 
+                printf("index = %u\n", (u16)index);
+
                 if (index <= 5)
                 {
-                    const u32 color_buff[6] = {
-                        RED,
-                        BLUE,
-                        GREEN,
-                        CYAN,
-                        YELLOW,
-                        PURPLE};
+
                     ls_set_color(0, color_buff[index]);
                     ls_set_color(1, BLACK);
                     fc_effect.dream_scene.change_type = MODE_SINGLE_C_BREATH;
@@ -434,9 +443,25 @@ void RF24G_Key_Handle(void)
                 {
                     // 暖白呼吸
                     fc_effect.dream_scene.change_type = MODE_WARM_WHITE_BREATHING;
-                    fc_effect.dream_scene.c_n = 1; 
+                    fc_effect.dream_scene.c_n = 1;
                     fc_effect.Now_state = IS_light_scene;
                 }
+                else if (8 == index)
+                {
+                    // 8个颜色轮流呼吸
+
+                    for (u8 i = 0; i < ARRAY_SIZE(color_buff); i++)
+                    {
+                        ls_set_color(i, color_buff[i]);
+
+                        // printf("color_buff index == %u\n", (u8)i);
+                    }
+                    fc_effect.dream_scene.c_n = 8;
+                    fc_effect.dream_scene.change_type = MODE_8_COLOR_BREATH;
+                    fc_effect.Now_state = IS_light_scene;
+                }
+
+                set_fc_effect();
             }
 
             // read 多种音乐律动切换
@@ -565,14 +590,20 @@ void RF24G_Key_Handle(void)
         {
             printf("warm long\n");
 
-            ls_Slight_Sub_CW();
+            // ls_Slight_Sub_CW();
+
+            // 暖光分量加，同时冷光分量减
+            ls_Sub_CW();
         }
         // 冷光
         if (key_value == RF24_WHITE)
         {
             printf("white long\n");
 
-            ls_Slight_Add_CW();
+            // ls_Slight_Add_CW();
+
+            // 冷光分量加，同时暖光分量减
+            ls_Add_CW();
         }
         if (key_value == RF24_BRT_SUB)
         {

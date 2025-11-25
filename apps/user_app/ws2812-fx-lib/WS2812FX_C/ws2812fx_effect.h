@@ -107,6 +107,8 @@ void close_metemor(void);
 
 u16 cool_white_breathing(void);
 u16 warm_white_breathing(void);
+u16 colorful_light_8_color_breath(void); // 8种颜色轮流呼吸
+u16 colorful_adjust_cool_warm(void);
 
 
 #endif

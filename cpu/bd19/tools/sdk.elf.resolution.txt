@@ -2187,9 +2187,11 @@ obj/Release/apps/user_app/led_strip/led_strand_effect.o
 -r=obj/Release/apps/user_app/led_strip/led_strand_effect.o,music_meteor3,l
 -r=obj/Release/apps/user_app/led_strip/led_strand_effect.o,save_user_data_area3,l
 -r=obj/Release/apps/user_app/led_strip/led_strand_effect.o,cw_driver,l
+-r=obj/Release/apps/user_app/led_strip/led_strand_effect.o,colorful_adjust_cool_warm,l
 -r=obj/Release/apps/user_app/led_strip/led_strand_effect.o,app_set_bright,l
 -r=obj/Release/apps/user_app/led_strip/led_strand_effect.o,cool_white_breathing,l
 -r=obj/Release/apps/user_app/led_strip/led_strand_effect.o,warm_white_breathing,l
+-r=obj/Release/apps/user_app/led_strip/led_strand_effect.o,colorful_light_8_color_breath,l
 -r=obj/Release/apps/user_app/led_strip/led_strand_effect.o,fc_music_gradual,l
 -r=obj/Release/apps/user_app/led_strip/led_strand_effect.o,fc_music_breath,l
 -r=obj/Release/apps/user_app/led_strip/led_strand_effect.o,fc_music_static,l
@@ -2217,7 +2219,6 @@ obj/Release/apps/user_app/led_strip/led_strip_drive.o
 -r=obj/Release/apps/user_app/led_strip/led_strip_drive.o,mcpwm_set_duty,l
 -r=obj/Release/apps/user_app/led_strip/led_strip_drive.o,fc_rgb_driver,pl
 -r=obj/Release/apps/user_app/led_strip/led_strip_drive.o,cw_driver,pl
--r=obj/Release/apps/user_app/led_strip/led_strip_drive.o,printf,l
 -r=obj/Release/apps/user_app/led_strip/led_strip_drive.o,set_timer_pwm_duty,l
 -r=obj/Release/apps/user_app/led_strip/led_strip_drive.o,cw_off,pl
 -r=obj/Release/apps/user_app/led_strip/led_strip_drive.o,turn_Off_Lamp,pl
@@ -2480,14 +2481,11 @@ obj/Release/apps/user_app/rf24g_key/rf24g_app.o
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,ls_1H_close,l
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,ls_set_color,l
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,set_fc_effect,l
--r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,ls_chose_mode_InAPP,l
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,ls_cycle_music_effect,l
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,set_static_mode,l
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,app_set_cw,l
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,save_user_data_area3,l
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,soft_turn_off_lights,l
--r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,ls_Slight_Sub_CW,l
--r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,ls_Slight_Add_CW,l
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,ls_slight_sub_bright,l
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,ls_slight_add_bright,l
 -r=obj/Release/apps/user_app/rf24g_key/rf24g_app.o,is_rf24g_,pl
@@ -2780,6 +2778,9 @@ obj/Release/apps/user_app/ws2812-fx-lib/WS2812FX_C/ws2812fx_effect.o
 -r=obj/Release/apps/user_app/ws2812-fx-lib/WS2812FX_C/ws2812fx_effect.o,cool_white_breathing,pl
 -r=obj/Release/apps/user_app/ws2812-fx-lib/WS2812FX_C/ws2812fx_effect.o,app_set_cw,l
 -r=obj/Release/apps/user_app/ws2812-fx-lib/WS2812FX_C/ws2812fx_effect.o,warm_white_breathing,pl
+-r=obj/Release/apps/user_app/ws2812-fx-lib/WS2812FX_C/ws2812fx_effect.o,colorful_light_8_color_breath,pl
+-r=obj/Release/apps/user_app/ws2812-fx-lib/WS2812FX_C/ws2812fx_effect.o,colorful_adjust_cool_warm,pl
+-r=obj/Release/apps/user_app/ws2812-fx-lib/WS2812FX_C/ws2812fx_effect.o,cw_driver,l
 -r=obj/Release/apps/user_app/ws2812-fx-lib/WS2812FX_C/ws2812fx_effect.o,WS2812FX_mutil_strobe,pl
 -r=obj/Release/apps/user_app/ws2812-fx-lib/WS2812FX_C/ws2812fx_effect.o,breath_rgb,pl
 -r=obj/Release/apps/user_app/ws2812-fx-lib/WS2812FX_C/ws2812fx_effect.o,fc_music_gradual,pl
